@@ -1,1 +1,1 @@
-# PasswordGen
+# Password Manager
