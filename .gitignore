@@ -1,0 +1,10 @@
+
+.vscode/c_cpp_properties.json
+
+.vscode/settings.json
+
+libs/algorithms/algorithm_driver
+
+libs/algorithms/algorithm_driver.c
+
+libs/algorithms/algorithm_driver.o
