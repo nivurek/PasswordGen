@@ -8,3 +8,7 @@ libs/algorithms/algorithm_driver
 libs/algorithms/algorithm_driver.c
 
 libs/algorithms/algorithm_driver.o
+
+obj/
+
+*.exe
