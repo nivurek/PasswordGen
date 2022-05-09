@@ -10,3 +10,6 @@ obj/cryptography.o: obj/algorithms.o libs/cryptography/cryptography.c libs/crypt
 
 obj/main.o: main.c
 	gcc -Ilibs/algorithms -Ilibs/cryptography -c main.c obj/algorithms.o obj/cryptography.o -o obj/main.o
+
+clean:
+	del obj\*.o output.exe
