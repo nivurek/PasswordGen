@@ -18,12 +18,12 @@ typedef struct entry entry_t;
 ******************************************************************************/
 void printMenu(void);
 void addPassword(entry_t password_list[], unsigned int* password_list_size);
-void deletePassword(void);
+void deletePassword(unsigned int* password_list_size);
 void editPassword(void);
-void displayPasswordList(void);
+void displayPasswordList(entry_t password_list[], unsigned int* password_list_size);
 void savePasswordList(void);
 int readPasswordList(void);
-// char* scanString(unsigned int size, char prompt[]);
+char* scanString(unsigned int size, char prompt[]);
 
 
 /******************************************************************************
@@ -45,8 +45,9 @@ int main(void) {
         char line[100];
         fgets(line ,sizeof(line), stdin);
         if(sscanf(line,"%d",&c) != 1);
+   
 
-        /* printf("Please enter your choice (1-6): ");
+        /* printf("Please enter your choice (1-7): ");
         scanf("%d", &c); */
 
 
@@ -59,13 +60,13 @@ int main(void) {
             addPassword(password_list, &password_list_size);
             break;
             case 2:
-            deletePassword();
+            deletePassword(&password_list_size);
             break;
             case 3:
             editPassword();
             break;
             case 4:
-            displayPasswordList();
+            displayPasswordList(password_list, &password_list_size);
             break;
             case 5:
             savePasswordList();
@@ -102,12 +103,22 @@ void addPassword(entry_t password_list[], unsigned int* password_list_size) {
 
     entry_t* password_p  = &password_list[*password_list_size];
 
+    char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
+    strcpy(password_p->url, website);
 
+    char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
+    strcpy(password_p->password, password);
 
+    (*password_list_size)++;
 }
 
-void deletePassword(void){
-    
+void deletePassword(unsigned int* password_list_size) {
+    if(*password_list_size > 0) {
+        (*password_list_size)--; 
+    }
+    else {
+        printf("List already empty");
+    }
 }
 
 void editPassword(void){
@@ -122,22 +133,21 @@ int readPasswordList(void){
     
 }
 
-void displayPasswordList(void) {
-    
+void displayPasswordList(entry_t password_list[], unsigned int* password_list_size) {
+    int i;
+    printf("Website    Password\n");
+    printf("---------- ----------\n");
+    for(i = 0; i < *password_list_size; i++) {
+        printf("%s %s\n", password_list[i].url, password_list[i].password);
+    }
 }
-
-
 
 char* scanString(unsigned int size, char prompt[]) {
-    char result[size];
     printf("%s", prompt);
-    fgets(result, sizeof(result), stdin);
+    char buffer[100];
+    char* result = (char*)malloc(size);
+    fgets(buffer, sizeof(buffer), stdin);
+    buffer[strcspn(buffer, "\n")] = 0;
+    strcpy(result, buffer);
     return result;
 }
-
-
-
-
-
-
-
