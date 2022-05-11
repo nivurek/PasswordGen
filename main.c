@@ -90,15 +90,23 @@ void printMenu(void) {
 
 
 void addPassword(LinkedList* password_list) {
+    /* Allocating memory for new entry */
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
+    /* Getting user website input and putting it into the entry */
     char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
     strcpy(new_entry->url, website);
 
+    /* Getting user password innput and putting it into entry */
     char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
     strcpy(new_entry->password, password);
 
+    /* Adding the entry to the password_list */
     LL_push(password_list, new_entry);
+
+    /* Freeing memory */
+    free(website);
+    free(password);
 }
 
 void deletePassword(LinkedList* password_list) {
@@ -136,11 +144,17 @@ void displayPasswordList(LinkedList password_list) {
 }
 
 char* scanString(unsigned int size, char prompt[]) {
+    /* Printing out prompt */
     printf("%s", prompt);
+
+    /* Creating a buffer that will contain the user input */
     char buffer[100];
-    char* result = (char*)malloc(size);
     fgets(buffer, sizeof(buffer), stdin);
+    /* Removing the newline at the end of the user input */
     buffer[strcspn(buffer, "\n")] = 0;
+
+    /* Converting the char array into a char pointer to be returned */
+    char* result = (char*)malloc(size);
     strcpy(result, buffer);
     return result;
 }
