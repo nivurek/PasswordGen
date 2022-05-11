@@ -12,3 +12,5 @@ libs/algorithms/algorithm_driver.o
 obj/
 
 *.exe
+
+.vscode/
