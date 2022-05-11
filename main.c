@@ -41,6 +41,7 @@ int main(void) {
 ******************************************************************************/
     printf("\nWelcome to Password Manager 2022\n");
     
+    printf("\nWelcome to Password Manager\n");
     while(1){
         int c;
         printMenu();
