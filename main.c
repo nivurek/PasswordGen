@@ -40,7 +40,7 @@ int main(void) {
  * User Interface/ Menu
 ******************************************************************************/
     
-    printf("\nWelcome to Password Manager\n");
+    printf("\nWelcome to Password Manager 2022\n");
     while(1){
         
         printMenu();
