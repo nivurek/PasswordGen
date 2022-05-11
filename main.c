@@ -51,16 +51,16 @@ int main(void) {
 
         switch(menuInput){
             case 1: 
-            addPassword(&password_list);
+            addPassword(password_list, &password_list_size);
             break;
             case 2:
-            deletePassword(&password_list);
+            deletePassword(&password_list_size);
             break;
             case 3:
             editPassword();
             break;
             case 4:
-            displayPasswordList(password_list);
+            displayPasswordList(password_list, &password_list_size);
             break;
             case 5:
             savePasswordList();
