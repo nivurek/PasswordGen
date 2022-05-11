@@ -97,7 +97,7 @@ void addPassword(LinkedList* password_list) {
     char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
     strcpy(new_entry->url, website);
 
-    /* Getting user password innput and putting it into entry */
+    /* Getting user password input and putting it into entry */
     char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
     strcpy(new_entry->password, password);
 
