@@ -41,7 +41,7 @@ int main(void) {
         int menuInput;
         printMenu();
         char line[100];
-        printf("\nPlease enter your choice (1-7): ")
+        printf("\nPlease enter your choice (1-7): ");
         fgets(line ,sizeof(line), stdin);
         if(sscanf(line,"%d",&menuInput) != 1);
         
@@ -51,16 +51,16 @@ int main(void) {
 
         switch(menuInput){
             case 1: 
-            addPassword(password_list, &password_list_size);
+            addPassword(&password_list);
             break;
             case 2:
-            deletePassword(&password_list_size);
+            deletePassword(&password_list);
             break;
             case 3:
             editPassword();
             break;
             case 4:
-            displayPasswordList(password_list, &password_list_size);
+            displayPasswordList(password_list);
             break;
             case 5:
             savePasswordList();
