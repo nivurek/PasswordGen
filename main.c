@@ -2,25 +2,22 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include "algorithms.h"
+#include "cryptography.h"
 
 
 #define MAX_WEBSITE_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50
 
-struct entry {
-    char url[MAX_WEBSITE_SIZE];
-    char password[MAX_PASSWORD_SIZE];
-};
-typedef struct entry entry_t;
 /******************************************************************************
  * Function prototypes
 ******************************************************************************/
 void printMenu(void);
-void addPassword(entry_t password_list[], unsigned int* password_list_size);
-void deletePassword(unsigned int* password_list_size);
+void addPassword(LinkedList* password_list);
+void deletePassword(LinkedList* password_list);
 void editPassword(void);
-void displayPasswordList(entry_t password_list[], unsigned int* password_list_size);
+void displayPasswordList(LinkedList password_list);
 void savePasswordList(void);
 int readPasswordList(void);
 char* scanString(unsigned int size, char prompt[]);
@@ -30,10 +27,9 @@ char* scanString(unsigned int size, char prompt[]);
  * Main
 ******************************************************************************/
 int main(void) {
-    /* Initialise file reading/writing here */
 
-    entry_t password_list[MAX_ARRAY_SIZE];
-    unsigned int password_list_size = 0;
+    LinkedList password_list;
+    password_list.size = 0;
 
     /* char dbFileName[] = "database.txt"; */
 /******************************************************************************
@@ -59,16 +55,16 @@ int main(void) {
 
         switch(userInput){
             case 1: 
-            addPassword(password_list, &password_list_size);
+            addPassword(&password_list);
             break;
             case 2:
-            deletePassword(&password_list_size);
+            deletePassword(&password_list);
             break;
             case 3:
             editPassword();
             break;
             case 4:
-            displayPasswordList(password_list, &password_list_size);
+            displayPasswordList(password_list);
             break;
             case 5:
             savePasswordList();
@@ -96,33 +92,24 @@ void printMenu(void) {
 }
 
 
-void addPassword(entry_t password_list[], unsigned int* password_list_size) {
-    if(*password_list_size >= MAX_ARRAY_SIZE) {
-        printf("List is full");
-        return;
-    }
-
-    entry_t* password_p  = &password_list[*password_list_size];
+void addPassword(LinkedList* password_list) {
+    entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
     char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
-    strcpy(password_p->url, website);
+    strcpy(new_entry->url, website);
 
     char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
-    strcpy(password_p->password, password);
+    strcpy(new_entry->password, password);
 
-    (*password_list_size)++;
+    LL_push(password_list, new_entry);
 }
 
-void deletePassword(unsigned int* password_list_size) {
-    if(*password_list_size > 0) {
-        (*password_list_size)--; 
-    }
-    else {
-        printf("List already empty");
-    }
+void deletePassword(LinkedList* password_list) {
+    LL_pop(password_list); 
 }
 
 void editPassword(void){
+    
     
 }
 
@@ -134,13 +121,21 @@ int readPasswordList(void){
     
 }
 
-void displayPasswordList(entry_t password_list[], unsigned int* password_list_size) {
-    int i;
+void displayPasswordList(LinkedList password_list) {
+    if(password_list.size <= 0) {
+        printf("List is empty");
+        return;
+    }
+
     printf("Website    Password\n");
     printf("---------- ----------\n");
-    for(i = 0; i < *password_list_size; i++) {
-        printf("%s %s\n", password_list[i].url, password_list[i].password);
+
+    LLNode* node = password_list.head;
+    while(node != NULL) {
+        printf("%s %s\n", node->data->url, node->data->password);
+        node = node->next;
     }
+    printf("Size: %d", password_list.size);
 }
 
 char* scanString(unsigned int size, char prompt[]) {

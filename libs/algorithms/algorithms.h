@@ -1,6 +1,12 @@
 #ifndef ALGORITHMS_H 
 #define ALGORITHMS_H
 
+struct entry {
+    char url[50];
+    char password[50];
+};
+typedef struct entry entry_t;
+
 /******************************************************************************
  * Min Heap
 ******************************************************************************/
@@ -25,7 +31,7 @@ MinHeap *createMinH(unsigned capacity);
  * Linked List
 ******************************************************************************/
 struct LLNode {
-    void* data;
+    entry_t* data;
     struct LLNode* next;
 };
 typedef struct LLNode LLNode;
@@ -36,10 +42,30 @@ struct LinkedList {
 };
 typedef struct LinkedList LinkedList;
 
-void LL_push(LinkedList* list, void* data, size_t data_size);
-void LL_pop(LinkedList* list);
-void* LL_front(LinkedList* list);
+/******************************************************************************
+ * Push
+ * Adds data to front of linked list.
+******************************************************************************/
+void LL_push(LinkedList* list, entry_t* data);
+/******************************************************************************
+ * Pop
+ * Removes data from front of linked list.
+******************************************************************************/
+void LL_pop(LinkedList* list); 
+/******************************************************************************
+ * Front
+ * Returns data from front of linked list.
+******************************************************************************/
+entry_t* LL_front(LinkedList* list);
+/******************************************************************************
+ * Remove  
+ * Removes data at position in linked list (indexed from 0).
+******************************************************************************/
 void LL_remove(LinkedList* list, unsigned int position);
-void LL_find(LinkedList* list, void* data);
+/******************************************************************************
+ * Get
+ * Returns data at position in linked list (indexed from 0).
+******************************************************************************/
+void LL_get(LinkedList* list, unsigned int position);
 
 #endif
