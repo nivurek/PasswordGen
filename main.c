@@ -39,26 +39,21 @@ int main(void) {
 /******************************************************************************
  * User Interface/ Menu
 ******************************************************************************/
-    printf("\nWelcome to Password Manager 2022\n");
     
     printf("\nWelcome to Password Manager\n");
     while(1){
-        int c;
+        int menuInput;
         printMenu();
         char line[100];
+        printf("\nPlease enter your choice (1-7): ")
         fgets(line ,sizeof(line), stdin);
-        if(sscanf(line,"%d",&c) != 1);
-   
-
-        /* printf("Please enter your choice (1-7): ");
-        scanf("%d", &c); */
-
-
-        if (c == 7){
+        if(sscanf(line,"%d",&menuInput) != 1);
+        
+        if (menuInput == 7){
             break;
         }
 
-        switch(c){
+        switch(menuInput){
             case 1: 
             addPassword(password_list, &password_list_size);
             break;
