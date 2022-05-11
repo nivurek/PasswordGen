@@ -39,25 +39,25 @@ int main(void) {
 /******************************************************************************
  * User Interface/ Menu
 ******************************************************************************/
-    
     printf("\nWelcome to Password Manager 2022\n");
+    
     while(1){
-        
+        int c;
         printMenu();
-        printf("\nPlease enter your choice (1-7): ");
-
-        int userInput = 0;
         char line[100];
         fgets(line ,sizeof(line), stdin);
-        if(sscanf(line,"%d",&userInput) != 1);
+        if(sscanf(line,"%d",&c) != 1);
+   
+
+        /* printf("Please enter your choice (1-7): ");
+        scanf("%d", &c); */
 
 
-        if (userInput == 7){
-            printf("\nProgram exited.");
+        if (c == 7){
             break;
         }
 
-        switch(userInput){
+        switch(c){
             case 1: 
             addPassword(password_list, &password_list_size);
             break;
@@ -75,9 +75,10 @@ int main(void) {
             break; 
             case 6:
             readPasswordList();
-            break;  
+            break; 
+            
             default:
-            printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+            printf("Invalid choice."); /* error message when a foreign input is entered e.g. 8 */
             break;
         }
     }
