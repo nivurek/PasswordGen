@@ -61,7 +61,7 @@ int main(void) {
             editPassword();
             break;
             case 4:
-            displayPasswordList(&account_list);
+            displayPasswordList(account_list);
             break;
             case 5:
             savePasswordList();
