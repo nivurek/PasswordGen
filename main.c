@@ -6,7 +6,8 @@
 #include "cryptography.h"
 
 
-#define MAX_WEBSITE_SIZE 50
+#define MAX_WEBSITE_SIZE 120
+#define MAX_USERNAME_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50
 
@@ -14,7 +15,7 @@
  * Function prototypes
 ******************************************************************************/
 void printMenu(void);
-void addPassword(LinkedList* password_list);
+void addEntry(LinkedList* password_list);
 void deletePassword(LinkedList* password_list);
 void editPassword(void);
 void displayPasswordList(LinkedList password_list);
@@ -51,7 +52,7 @@ int main(void) {
 
         switch(menuInput){
             case 1: 
-            addPassword(&password_list);
+            addEntry(&password_list);
             break;
             case 2:
             deletePassword(&password_list);
@@ -79,25 +80,29 @@ int main(void) {
 
 void printMenu(void) {
     printf("\n"
-     "1. Add a password\n"
-     "2. Delete a password\n"
-     "3. Edit a password\n"
-     "4. Display password list\n"
-     "5. Save the password list as an encrypted file\n"
-     "6. Read a password list from an encrypted file\n"
+     "1. Add an account\n"
+     "2. Delete an account\n"
+     "3. Edit an account\n"
+     "4. Display account list\n"
+     "5. Save the account list as an encrypted file\n"
+     "6. Read a account list from an encrypted file\n"
      "7. Exit Password Manager\n");
 }
 
 
-void addPassword(LinkedList* password_list) {
+void addEntry(LinkedList* password_list) {
     /* Allocating memory for new entry */
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
-    /* Getting user website input and putting it into the entry */
+    /* Getting the inputted website that is relevant to the user's accountand putting it into the entry */
     char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
     strcpy(new_entry->url, website);
 
-    /* Getting user password innput and putting it into entry */
+    /* Getting user's account username input and putting it into entry */
+    char* username = scanString(MAX_USERNAME_SIZE, "Enter username: ");
+    strcpy(new_entry->username, username);
+
+    /* Getting user password input and putting it into entry */
     char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
     strcpy(new_entry->password, password);
 
@@ -132,12 +137,12 @@ void displayPasswordList(LinkedList password_list) {
         return;
     }
 
-    printf("Website    Password\n");
-    printf("---------- ----------\n");
+    printf("Website                         Username                   Password\n");
+    printf("------------------------------  -------------------------  --------------------\n");
 
     LLNode* node = password_list.head;
     while(node != NULL) {
-        printf("%s %s\n", node->data->url, node->data->password);
+        printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
     printf("Size: %d", password_list.size);
@@ -158,3 +163,4 @@ char* scanString(unsigned int size, char prompt[]) {
     strcpy(result, buffer);
     return result;
 }
+
