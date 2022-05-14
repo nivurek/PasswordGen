@@ -111,6 +111,7 @@ void addEntry(LinkedList* password_list) {
 
     /* Freeing memory */
     free(website);
+    free(username);
     free(password);
 }
 
