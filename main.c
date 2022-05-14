@@ -85,7 +85,7 @@ void printMenu(void) {
      "3. Edit an account\n"
      "4. Display account list\n"
      "5. Save the account list as an encrypted file\n"
-     "6. Read a account list from an encrypted file\n"
+     "6. Read an account list from an encrypted file\n"
      "7. Exit Password Manager\n");
 }
 
