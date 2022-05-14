@@ -134,11 +134,11 @@ int readPasswordList(void){
 
 void displayPasswordList(LinkedList account_list) {
     if(account_list.size <= 0) {
-        printf("List is empty");
+        printf("List is empty!\n");
         return;
     }
 
-    printf("Website                         Username                   Password\n");
+    printf("\nWebsite                         Username                   Password\n");
     printf("------------------------------  -------------------------  --------------------\n");
 
     LLNode* node = account_list.head;
