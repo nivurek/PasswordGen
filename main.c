@@ -15,10 +15,10 @@
  * Function prototypes
 ******************************************************************************/
 void printMenu(void);
-void addEntry(LinkedList* password_list);
-void deletePassword(LinkedList* password_list);
+void addEntry(LinkedList* account_list);
+void deletePassword(LinkedList* account_list);
 void editPassword(void);
-void displayPasswordList(LinkedList password_list);
+void displayPasswordList(LinkedList account_list);
 void savePasswordList(void);
 int readPasswordList(void);
 char* scanString(unsigned int size, char prompt[]);
@@ -29,8 +29,8 @@ char* scanString(unsigned int size, char prompt[]);
 ******************************************************************************/
 int main(void) {
 
-    LinkedList password_list;
-    password_list.size = 0;
+    LinkedList account_list;
+    account_list.size = 0;
 
     /* char dbFileName[] = "database.txt"; */
 /******************************************************************************
@@ -52,16 +52,16 @@ int main(void) {
 
         switch(menuInput){
             case 1: 
-            addEntry(&password_list);
+            addEntry(&account_list);
             break;
             case 2:
-            deletePassword(&password_list);
+            deletePassword(&account_list);
             break;
             case 3:
             editPassword();
             break;
             case 4:
-            displayPasswordList(password_list);
+            displayPasswordList(&account_list);
             break;
             case 5:
             savePasswordList();
@@ -90,7 +90,7 @@ void printMenu(void) {
 }
 
 
-void addEntry(LinkedList* password_list) {
+void addEntry(LinkedList* account_list) {
     /* Allocating memory for new entry */
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
@@ -106,8 +106,8 @@ void addEntry(LinkedList* password_list) {
     char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
     strcpy(new_entry->password, password);
 
-    /* Adding the entry to the password_list */
-    LL_push(password_list, new_entry);
+    /* Adding the entry to the account_list */
+    LL_push(account_list, new_entry);
 
     /* Freeing memory */
     free(website);
@@ -115,8 +115,8 @@ void addEntry(LinkedList* password_list) {
     free(password);
 }
 
-void deletePassword(LinkedList* password_list) {
-    LL_pop(password_list); 
+void deletePassword(LinkedList* account_list) {
+    LL_pop(account_list); 
 }
 
 void editPassword(void){
@@ -132,8 +132,8 @@ int readPasswordList(void){
     
 }
 
-void displayPasswordList(LinkedList password_list) {
-    if(password_list.size <= 0) {
+void displayPasswordList(LinkedList account_list) {
+    if(account_list.size <= 0) {
         printf("List is empty");
         return;
     }
@@ -141,12 +141,12 @@ void displayPasswordList(LinkedList password_list) {
     printf("Website                         Username                   Password\n");
     printf("------------------------------  -------------------------  --------------------\n");
 
-    LLNode* node = password_list.head;
+    LLNode* node = account_list.head;
     while(node != NULL) {
         printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
-    printf("Size: %d", password_list.size);
+    printf("Size: %d", account_list.size);
 }
 
 char* scanString(unsigned int size, char prompt[]) {
