@@ -16,3 +16,5 @@ obj/cryptography.o
 obj/main.o
 
 *.exe
+
+.vscode/
