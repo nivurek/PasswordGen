@@ -44,7 +44,10 @@ int main(void) {
         char line[100];
         printf("\nPlease enter your choice (1-7): ");
         fgets(line ,sizeof(line), stdin);
-        if(sscanf(line,"%d",&menuInput) != 1);
+        if(sscanf(line,"%d",&menuInput) != 1) {
+            printf("Invalide Choice.");
+            continue;
+        }
         
         if (menuInput == 7){
             break;
