@@ -20,11 +20,16 @@ void LL_push(LinkedList* list, entry_t* data) {
 }
 
 void LL_pop(LinkedList* list) {
+    /* Edge case where list is already empty */
     if(list->size <= 0) {
         return;
     }
     
+    /* Creates a temporary reference to the node being popped */
     LLNode* node = list->head;
+
+    /* Updates head pointer to point to the next node in 
+       the list if it exists, otherwise pointing to NULL */ 
     if(list->size > 1) {
         list->head = node->next;
     }
@@ -32,11 +37,15 @@ void LL_pop(LinkedList* list) {
         list->head = NULL;
     }
 
+    /* Freeing the memory allocated by the node & reducing size by 1 */
     (list->size)--;
+    free(node->data);
     free(node);
 }
 
 entry_t* LL_front(LinkedList* list) {
+    /* If the list is not empty, return the data held in the head.
+       Otherwise, return NULL */
     if(list->size > 0) {
         return list->head->data;
     }

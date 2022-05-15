@@ -9,7 +9,11 @@ libs/algorithms/algorithm_driver.c
 
 libs/algorithms/algorithm_driver.o
 
-obj/
+obj/algorithms.o
+
+obj/cryptography.o  
+
+obj/main.o
 
 *.exe
 

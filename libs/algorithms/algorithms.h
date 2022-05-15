@@ -2,7 +2,8 @@
 #define ALGORITHMS_H
 
 struct entry {
-    char url[50];
+    char url[100];
+    char username [50];
     char password[50];
 };
 typedef struct entry entry_t;
