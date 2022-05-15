@@ -32,7 +32,7 @@ int main(void) {
 
     LinkedList account_list;
     account_list.size = 0;
-    account_list.size = NULL;
+    account_list.head = NULL;
 
     /* char dbFileName[] = "database.txt"; */
 /******************************************************************************
@@ -193,7 +193,7 @@ void displayPasswordList(LinkedList account_list) {
         printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
-    printf("Size: %d", account_list.size);
+    printf("\nNumber of Accounts: %d\n", account_list.size);
 }
 
 char* scanString(unsigned int size, char prompt[]) {
