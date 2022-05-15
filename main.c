@@ -10,6 +10,7 @@
 #define MAX_USERNAME_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50
+#define DATABASE_FILE_NAME "passwords.txt"
 
 /******************************************************************************
  * Function prototypes
@@ -19,8 +20,8 @@ void addEntry(LinkedList* account_list);
 void deletePassword(LinkedList* account_list);
 void editPassword(void);
 void displayPasswordList(LinkedList account_list);
-void savePasswordList(void);
-int readPasswordList(void);
+void savePasswordList(LinkedList account_list);
+int readPasswordList(LinkedList* account_list);
 char* scanString(unsigned int size, char prompt[]);
 
 
@@ -45,7 +46,7 @@ int main(void) {
         printf("\nPlease enter your choice (1-7): ");
         fgets(line ,sizeof(line), stdin);
         if(sscanf(line,"%d",&menuInput) != 1) {
-            printf("Invalide Choice.");
+            printf("Invalid choice.\n");
             continue;
         }
         
@@ -67,10 +68,10 @@ int main(void) {
             displayPasswordList(account_list);
             break;
             case 5:
-            savePasswordList();
+            savePasswordList(account_list);
             break; 
             case 6:
-            readPasswordList();
+            readPasswordList(&account_list);
             break; 
             
             default:
@@ -124,16 +125,58 @@ void deletePassword(LinkedList* account_list) {
 
 void editPassword(void){
     
-    
 }
 
-void savePasswordList(void){
-    
+void savePasswordList(LinkedList account_list){
+    FILE *fp;
+    if((fp = fopen(DATABASE_FILE_NAME, "w")) == NULL) {
+        printf("Write error");
+        return;
+    }
+
+    int i;
+    LLNode* node = account_list.head;
+    /* Writing the employee list to the database file */
+    while(node != NULL) {
+        // fwrite(node->data, sizeof(entry_t), 1, fp);
+        fprintf(fp,"%s %s %s\n", node->data->url, node->data->username, node->data->password);
+        node = node->next;
+    }
+
+    /*Close file */
+    fclose(fp);
 }
 
-int readPasswordList(void){
+int readPasswordList(LinkedList* account_list){
+    FILE *fp;
+
+    if((fp = fopen(DATABASE_FILE_NAME, "r")) == NULL) {
+        printf("Read error");
+        return 1;
+    }
+
+
+    LLNode* current = account_list->head;
+    char *website, *username, *password;
+
+    while(fscanf(fp, "%s %s %s\n", website, username, password)) {
+        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
+
+        current = (LLNode*)malloc(sizeof(LLNode));
+
+        strcpy(new_entry->url, website);
+        strcpy(new_entry->username, username);
+        strcpy(new_entry->password, password);
+
+        current->data = new_entry;
+
+        current = current->next;
+    }
     
+    fclose(fp);
+    return 0;
 }
+
 
 void displayPasswordList(LinkedList account_list) {
     if(account_list.size <= 0) {
