@@ -32,6 +32,7 @@ int main(void) {
 
     LinkedList account_list;
     account_list.size = 0;
+    account_list.size = NULL;
 
     /* char dbFileName[] = "database.txt"; */
 /******************************************************************************
