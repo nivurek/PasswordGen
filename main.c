@@ -45,7 +45,7 @@ int main(void) {
         printf("\nPlease enter your choice (1-7): ");
         fgets(line ,sizeof(line), stdin);
         if(sscanf(line,"%d",&menuInput) != 1) {
-            printf("Invalide Choice.");
+            printf("Invalid Choice.\n");
             continue;
         }
         
