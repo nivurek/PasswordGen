@@ -6,7 +6,7 @@
 #include "cryptography.h"
 
 
-#define MAX_WEBSITE_SIZE 120
+#define MAX_WEBSITE_SIZE 100
 #define MAX_USERNAME_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50

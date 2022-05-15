@@ -2,7 +2,7 @@
 #define ALGORITHMS_H
 
 struct entry {
-    char url[120];
+    char url[100];
     char username [50];
     char password[50];
 };
