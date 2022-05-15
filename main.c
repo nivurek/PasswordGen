@@ -71,7 +71,7 @@ int main(void) {
             break; 
             
             default:
-            printf("Invalid choice."); /* error message when a foreign input is entered e.g. 8 */
+            printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
             break;
         }
     }
