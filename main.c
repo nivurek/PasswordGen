@@ -155,9 +155,7 @@ int readPasswordList(LinkedList* account_list){
         printf("Read error");
         return 1;
     }
-
-
-    LLNode* current = account_list->head;
+    /* LLNode* current = account_list->head;
     char *website, *username, *password;
 
     while(fscanf(fp, "%s %s %s\n", website, username, password)) {
@@ -172,7 +170,19 @@ int readPasswordList(LinkedList* account_list){
         current->data = new_entry;
 
         current = current->next;
-    }
+    }*/
+
+    
+
+     char s;
+
+    
+    
+     while((s=fgetc(fp))!=EOF) {
+     printf("%c",s);
+     }
+
+
     
     fclose(fp);
     return 0;
