@@ -21,7 +21,7 @@ void deletePassword(LinkedList* account_list);
 void editPassword(void);
 void displayPasswordList(LinkedList account_list);
 void savePasswordList(LinkedList account_list);
-int readPasswordList(LinkedList* account_list);
+int readPasswordList(LinkedList* account_list, int flag);
 char* scanString(unsigned int size, char prompt[]);
 
 
@@ -33,7 +33,7 @@ int main(void) {
     LinkedList account_list;
     account_list.size = 0;
     account_list.head = NULL;
-
+    int flag =0;
     /* char dbFileName[] = "database.txt"; */
 /******************************************************************************
  * User Interface/ Menu
@@ -72,7 +72,9 @@ int main(void) {
             savePasswordList(account_list);
             break; 
             case 6:
-            readPasswordList(&account_list);
+            
+            readPasswordList(&account_list,flag);
+            flag=1;
             break; 
             
             default:
@@ -148,31 +150,56 @@ void savePasswordList(LinkedList account_list){
     fclose(fp);
 }
 
-int readPasswordList(LinkedList* account_list){
+int readPasswordList(LinkedList* account_list, int flag){
     FILE *fp;
 
     if((fp = fopen(DATABASE_FILE_NAME, "r")) == NULL) {
         printf("Read error");
         return 1;
     }
+     LLNode* current = account_list->head;
+    /*char *website, *username, *password;*/
+    
+    if(flag==0){
 
-
-    LLNode* current = account_list->head;
-    char *website, *username, *password;
-
-    while(fscanf(fp, "%s %s %s\n", website, username, password)) {
-        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
+    
+    while(1==1){
+        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
+     if(fscanf(fp, "%s %s %s", new_entry->url, new_entry->username, new_entry->password)==3){
+     LL_push(account_list, new_entry);
+     }
+     else{
+         break;
+     }
+     
+    }
+}
+    //reverse linked list required^
+    /*while(fscanf(fp, "%100s %50s %50s\n", new_entry->url, new_entry->username, new_entry->password)) {
+        //entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
 
         current = (LLNode*)malloc(sizeof(LLNode));
-
+/*
         strcpy(new_entry->url, website);
         strcpy(new_entry->username, username);
         strcpy(new_entry->password, password);
 
-        current->data = new_entry;
+        current->data = new_entry;*/
+       /* LL_push(account_list, new_entry); 
+        current = current->next;*/
+    /* }*/
 
-        current = current->next;
-    }
+    
+fp = fopen(DATABASE_FILE_NAME, "r");
+     char s;
+
+    
+    
+     while((s=fgetc(fp))!=EOF) {
+     printf("%c",s);
+     }
+
+
     
     fclose(fp);
     return 0;
