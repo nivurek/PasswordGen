@@ -154,7 +154,21 @@ int readPasswordList(LinkedList* account_list){
         printf("Read error");
         return 1;
     }
-
+    
+    if(flag == 0) {    
+        while(1) {
+            entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
+            if(fscanf(fp, "%s %s %s", new_entry->url, new_entry->username, new_entry->password) == 3) {
+                LL_push(account_list, new_entry);
+            }
+            else {
+                break;
+            }
+        }
+    }
+    //reverse linked list required^
+    /*while(fscanf(fp, "%100s %50s %50s\n", new_entry->url, new_entry->username, new_entry->password)) {
+        //entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
 
     LLNode* current = account_list->head;
     char *website, *username, *password;
@@ -170,10 +184,8 @@ int readPasswordList(LinkedList* account_list){
 
         current->data = new_entry;
 
-        current = current->next;
-    }
-    
-    fclose(fp);
+    displayPasswordList(*account_list);
+
     return 0;
 }
 
