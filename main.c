@@ -176,6 +176,7 @@ void savePasswordList(LinkedList account_list){
         fprintf(fp,"%s %s %s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
+    printf("Saved into passwords.txt successfully.\n");
 
     /*Close file */
     fclose(fp);
