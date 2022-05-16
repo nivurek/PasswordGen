@@ -18,7 +18,7 @@
 void printMenu(void);
 void addEntry(LinkedList* account_list);
 void deletePassword(LinkedList* account_list);
-void editPassword(void);
+void editPassword(LinkedList* account_list);
 void displayPasswordList(LinkedList account_list);
 void savePasswordList(LinkedList account_list);
 int readPasswordList(LinkedList* account_list, int flag);
@@ -63,7 +63,8 @@ int main(void) {
             deletePassword(&account_list);
             break;
             case 3:
-            editPassword();
+            
+            editPassword(&account_list);
             break;
             case 4:
             displayPasswordList(account_list);
@@ -126,8 +127,38 @@ void deletePassword(LinkedList* account_list) {
     LL_pop(account_list); 
 }
 
-void editPassword(void){
+void editPassword(LinkedList* account_list){
+    deletePassword(account_list);
+    addEntry(account_list);
+    /*
+    int key;
+    char line1[100];
+    printf("Enter: ");
+    fgets(line1 ,sizeof(line1), stdin);
+    sscanf(line1,"%d",&key);
+    if(key<1)
+        return;
+    LLNode* node = list->head;
+    int i=1;
+    while(i<key)
+    {
+        node=node->next;
+    }    
+    printf("p1      ");
+
     
+    char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
+    strcpy(node->data->url, website);
+
+    
+    char* username = scanString(MAX_USERNAME_SIZE, "Enter username: ");
+    strcpy(node->data->username, username);
+
+    
+    char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
+    strcpy(node->data->password, password);
+    printf("p2");
+    free(node);*/
 }
 
 void savePasswordList(LinkedList account_list){
@@ -179,13 +210,13 @@ int readPasswordList(LinkedList* account_list, int flag){
         //entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
 
         current = (LLNode*)malloc(sizeof(LLNode));
-/*
+
         strcpy(new_entry->url, website);
         strcpy(new_entry->username, username);
         strcpy(new_entry->password, password);
 
         current->data = new_entry;*/
-       /* LL_push(account_list, new_entry); 
+       /*LL_push(account_list, new_entry); 
         current = current->next;*/
     /* }*/
 
