@@ -15,6 +15,8 @@ obj/cryptography.o
 
 obj/main.o
 
+passwords.txt
+
 *.exe
 
 .vscode/
