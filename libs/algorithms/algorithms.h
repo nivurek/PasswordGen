@@ -60,13 +60,13 @@ void LL_pop(LinkedList* list);
 entry_t* LL_front(LinkedList* list);
 /******************************************************************************
  * Remove  
- * Removes data at position in linked list (indexed from 0).
+ * Removes node at position in linked list (indexed from 0).
 ******************************************************************************/
 void LL_remove(LinkedList* list, unsigned int position);
 /******************************************************************************
  * Get
- * Returns data at position in linked list (indexed from 0).
+ * Returns pointer to data at position in linked list (indexed from 0).
 ******************************************************************************/
-void LL_get(LinkedList* list, unsigned int position);
+entry_t* LL_get(LinkedList* list, unsigned int position);
 
 #endif
