@@ -60,7 +60,7 @@ int main(void) {
             continue;
         }
          if (loginInput == 3){
-            printf("Exiting Program..");
+            printf("Exited program.");
             break;
         }
 
@@ -80,7 +80,6 @@ int main(void) {
                 }
                 
                 if (menuInput == 5){
-                    printf("Exiting Program..");
                     break;
                 }
 
@@ -200,19 +199,25 @@ int main(void) {
 } */
 
 void printLoginMenu(void) {
-    printf("\n"
+    printf(
+    "================================\n"
+    "           Login Menu           \n"
+    "================================\n"
      "1. Unlock\n"
      "2. Create Key\n"
-     "3. Go back to Main Menu\n");
+     "3. Exit Password Manager\n");
 }
 
 void printMainMenu(void) {
-    printf("\n"
+    printf(
+    "================================\n"
+    "           Main Menu            \n"
+    "================================\n"
      "1. Add an account\n"
      "2. Delete an account\n"
      "3. Edit an account\n"
      "4. Display account list\n"
-     "5. Exit Password Manager\n");
+     "5. Go back to Login Menu\n");
 }
 
 void createKey(void){
@@ -358,7 +363,7 @@ void displayPasswordList(LinkedList account_list) {
         printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
-    printf("\nNumber of Accounts: %d\n", account_list.size);
+    printf("\nNumber of Accounts: %d\n\n", account_list.size);
 }
 
 char* scanString(unsigned int size, char prompt[]) {
