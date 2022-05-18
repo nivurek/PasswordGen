@@ -53,3 +53,18 @@ entry_t* LL_front(LinkedList* list) {
         return NULL;
     }
 }
+
+entry_t* LL_get(LinkedList* list, unsigned int position) {
+    if(position >= list->size) {
+        return NULL;
+    }
+
+    LLNode* current = list->head;
+
+    int i;
+    for(i = 0; i < position; i++) {
+        current = current->next;
+    }
+
+    return current->data;
+}
