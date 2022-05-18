@@ -19,7 +19,7 @@
 void printMainMenu(void);
 void printLoginMenu(void);
 void createKey(void);
-void useKey(void);
+void loginKey(void);
 void addEntry(LinkedList* account_list);
 void deletePassword(LinkedList* account_list);
 void editPassword(LinkedList* account_list);
@@ -65,7 +65,9 @@ int main(void) {
         }
 
         switch(loginInput){
-            case 1: 
+            case 1:
+            /* If key.txt contains data, calls the function insertKey()  */
+
                 while(1){
                 readPasswordList(&account_list,flag);
                 flag=1;
@@ -101,9 +103,9 @@ int main(void) {
                     printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
                     break;
                     }
-                }
-                break;
-            
+                }         
+            break;
+
             case 2:
             createKey();
             break;
@@ -112,8 +114,8 @@ int main(void) {
             printf("Invalid choice.\n"); 
             break;
         }
-    return 0;
     }
+    return 0;
 }
 
 
@@ -201,7 +203,7 @@ void printLoginMenu(void) {
     printf("\n"
      "1. Unlock\n"
      "2. Create Key\n"
-     "3. Exit Password Manager\n");
+     "3. Go back to Main Menu\n");
 }
 
 void printMainMenu(void) {
@@ -217,8 +219,19 @@ void createKey(void){
 
 }
 
-void useKey(void){
 
+
+void loginKey(void){
+/* FILE *fp;
+fp = fopen( key.txt,"r" );
+if (NULL != fp) {
+    fseek (fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    if (0 == size) {
+        printf("file is empty\n");
+    }
+} */
 }
 
 void addEntry(LinkedList* account_list) {
