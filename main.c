@@ -42,14 +42,87 @@ int main(void) {
 
     
 /******************************************************************************
- * Key Login Interface/ Menu
+ * User Interface/ Menu 
 ******************************************************************************/
     printf("\nWelcome to Password Manager\n");
 
+    int menuInput;
+    int loginInput;
+    char line[100];
+
+    while(1){
+    printLoginMenu();
+        printf("\nPlease enter your choice (1-3): ");
+        fgets(line ,sizeof(line), stdin);
+        
+        if(sscanf(line,"%d",&loginInput) != 1) {
+            printf("Invalid Choice.\n");
+            continue;
+        }
+         if (loginInput == 3){
+            printf("Exiting Program..");
+            break;
+        }
+
+        switch(loginInput){
+            case 1: 
+                while(1){
+                readPasswordList(&account_list,flag);
+                flag=1;
+                printMainMenu();
+                printf("\nPlease enter your choice (1-5): ");
+                fgets(line ,sizeof(line), stdin);
+                if(sscanf(line,"%d",&menuInput) != 1) {
+                    printf("Invalid Choice.\n");
+                    continue;
+                }
+                
+                if (menuInput == 5){
+                    printf("Exiting Program..");
+                    break;
+                }
+
+                switch(menuInput){
+                    case 1: 
+                    addEntry(&account_list);
+                    savePasswordList(account_list);
+                    break;
+                    case 2:
+                    deletePassword(&account_list);
+                    break;
+                    case 3:
+                    editPassword(&account_list);
+                    break;
+                    case 4:
+                    displayPasswordList(account_list);
+                    break;
+
+                    default:
+                    printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+                    break;
+                    }
+                }
+                break;
+            
+            case 2:
+            createKey();
+            break;
+
+            default:
+            printf("Invalid choice.\n"); 
+            break;
+        }
+    return 0;
+    }
+}
+
+
+
+    
+/* 
     while(1){
         readPasswordList(&account_list,flag);
         flag=1;
-        int menuInput;
         printMainMenu();
         char line[100];
         printf("\nPlease enter your choice (1-5): ");
@@ -82,19 +155,18 @@ int main(void) {
             return 0;
 
             default:
-            printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+            printf("Invalid choice.\n"); 
             break;
         }
     }
-    return 0;
-}
+    return 0; */
+
 
 /******************************************************************************
- * User Interface/ Menu
+ * Key Login Interface/ Sub-menu
 ******************************************************************************/
 
 /*  while(1){
-    int loginInput;
     printLoginMenu();
     char line[100];
         printf("\nPlease enter your choice (1-3): ");
@@ -124,8 +196,6 @@ int main(void) {
         }
     return 0;
 } */
-
-
 
 void printLoginMenu(void) {
     printf("\n"
