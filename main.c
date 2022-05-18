@@ -42,7 +42,7 @@ int main(void) {
 
     
 /******************************************************************************
- * User Interface/ Menu 
+ * User Interfaces
 ******************************************************************************/
     printf("\nWelcome to Password Manager\n");
 
@@ -63,7 +63,7 @@ int main(void) {
             printf("Exited program.");
             break;
         }
-
+    /* Key Login menu (outer) with nested Main Menu (inner) */
         switch(loginInput){
             case 1:
             /* If key.txt contains data, calls the function insertKey()  */
