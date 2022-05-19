@@ -11,11 +11,15 @@
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50
 #define DATABASE_FILE_NAME "passwords.txt"
+#define KEY_FILE_NAME "key.txt"
 
 /******************************************************************************
  * Function prototypes
 ******************************************************************************/
-void printMenu(void);
+void printMainMenu(void);
+void printLoginMenu(void);
+void createKey(void);
+void loginKey(void);
 void addEntry(LinkedList* account_list);
 void deletePassword(LinkedList* account_list);
 void editPassword(LinkedList* account_list);
@@ -35,68 +39,205 @@ int main(void) {
     account_list.head = NULL;
     int flag =0;
     /* char dbFileName[] = "database.txt"; */
-/******************************************************************************
- * User Interface/ Menu
-******************************************************************************/
+
     
+/******************************************************************************
+ * User Interface/ Menu 
+******************************************************************************/
     printf("\nWelcome to Password Manager\n");
+
+    int menuInput;
+    int loginInput;
+    char line[100];
+
     while(1){
-        int menuInput;
-        printMenu();
-        char line[100];
-        printf("\nPlease enter your choice (1-7): ");
+    printLoginMenu();
+        printf("\nPlease enter your choice (1-3): ");
         fgets(line ,sizeof(line), stdin);
-        if(sscanf(line,"%d",&menuInput) != 1) {
+        
+        if(sscanf(line,"%d",&loginInput) != 1) {
             printf("Invalid Choice.\n");
             continue;
         }
-        
-        if (menuInput == 7){
+         if (loginInput == 3){
+            printf("Exited program.");
             break;
         }
 
-        switch(menuInput){
-            case 1: 
-            addEntry(&account_list);
+        switch(loginInput){
+            case 1:
+            /* If key.txt contains data, calls the function insertKey()  */
+
+                while(1){
+                readPasswordList(&account_list,flag);
+                flag=1;
+                printMainMenu();
+                printf("\nPlease enter your choice (1-5): ");
+                fgets(line ,sizeof(line), stdin);
+                if(sscanf(line,"%d",&menuInput) != 1) {
+                    printf("Invalid Choice.\n");
+                    continue;
+                }
+                
+                if (menuInput == 5){
+                    break;
+                }
+
+                switch(menuInput){
+                    case 1: 
+                    addEntry(&account_list);
+                    savePasswordList(account_list);
+                    break;
+                    case 2:
+                    deletePassword(&account_list);
+                    break;
+                    case 3:
+                    editPassword(&account_list);
+                    break;
+                    case 4:
+                    displayPasswordList(account_list);
+                    break;
+
+                    default:
+                    printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+                    break;
+                    }
+                }         
             break;
+
             case 2:
-            deletePassword(&account_list);
+            createKey();
             break;
-            case 3:
-            
-            editPassword(&account_list);
-            break;
-            case 4:
-            displayPasswordList(account_list);
-            break;
-            case 5:
-            savePasswordList(account_list);
-            break; 
-            case 6:
-            
-            readPasswordList(&account_list,flag);
-            flag=1;
-            break; 
-            
+
             default:
-            printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+            printf("Invalid choice.\n"); 
             break;
         }
     }
     return 0;
 }
 
-void printMenu(void) {
-    printf("\n"
+
+
+    
+/* 
+    while(1){
+        readPasswordList(&account_list,flag);
+        flag=1;
+        printMainMenu();
+        char line[100];
+        printf("\nPlease enter your choice (1-5): ");
+        fgets(line ,sizeof(line), stdin);
+        if(sscanf(line,"%d",&menuInput) != 1) {
+            printf("Invalid Choice.\n");
+            continue;
+        }
+        
+        if (menuInput == 5){
+            printf("Exiting Program..");
+            break;
+        }
+
+        switch(menuInput){
+            case 1: 
+            addEntry(&account_list);
+            savePasswordList(account_list);
+            break;
+            case 2:
+            deletePassword(&account_list);
+            break;
+            case 3:
+            editPassword(&account_list);
+            break;
+            case 4:
+            displayPasswordList(account_list);
+            break;
+            case 5:
+            return 0;
+
+            default:
+            printf("Invalid choice.\n"); 
+            break;
+        }
+    }
+    return 0; */
+
+
+/******************************************************************************
+ * Key Login Interface/ Sub-menu
+******************************************************************************/
+
+/*  while(1){
+    printLoginMenu();
+    char line[100];
+        printf("\nPlease enter your choice (1-3): ");
+        fgets(line ,sizeof(line), stdin);
+        
+        if(sscanf(line,"%d",&loginInput) != 1) {
+            printf("Invalid Choice.\n");
+            continue;
+        }
+         if (loginInput == 3){
+            printf("Exiting Program..");
+            break;
+        }
+
+        switch(loginInput){
+            case 1: 
+            useKey();
+            switch1();
+            break;
+            case 2:
+            createKey();
+            break;
+
+            default:
+            printf("Invalid choice.\n"); 
+            break;
+        }
+    return 0;
+} */
+
+void printLoginMenu(void) {
+    printf(
+    "================================\n"
+    "           Login Menu           \n"
+    "================================\n"
+     "1. Unlock\n"
+     "2. Create Key\n"
+     "3. Exit Password Manager\n");
+}
+
+void printMainMenu(void) {
+    printf(
+    "================================\n"
+    "           Main Menu            \n"
+    "================================\n"
      "1. Add an account\n"
      "2. Delete an account\n"
      "3. Edit an account\n"
      "4. Display account list\n"
-     "5. Save the account list as an encrypted file\n"
-     "6. Read an account list from an encrypted file\n"
-     "7. Exit Password Manager\n");
+     "5. Go back to Login Menu\n");
 }
 
+void createKey(void){
+
+}
+
+
+
+void loginKey(void){
+/* FILE *fp;
+fp = fopen( key.txt,"r" );
+if (NULL != fp) {
+    fseek (fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    if (0 == size) {
+        printf("file is empty\n");
+    }
+} */
+}
 
 void addEntry(LinkedList* account_list) {
     /* Allocating memory for new entry */
@@ -121,6 +262,7 @@ void addEntry(LinkedList* account_list) {
     free(website);
     free(username);
     free(password);
+    
 }
 
 void deletePassword(LinkedList* account_list) {
@@ -128,8 +270,10 @@ void deletePassword(LinkedList* account_list) {
 }
 
 void editPassword(LinkedList* account_list){
-    deletePassword(account_list);
-    addEntry(account_list);
+
+    
+    /* deletePassword(account_list);
+    addEntry(account_list); */
     /*
     int key;
     char line1[100];
@@ -168,7 +312,6 @@ void savePasswordList(LinkedList account_list){
         return;
     }
 
-    int i;
     LLNode* node = account_list.head;
     /* Writing the employee list to the database file */
     while(node != NULL) {
@@ -201,28 +344,6 @@ int readPasswordList(LinkedList* account_list, int flag){
             }
         }
     }
-    //reverse linked list required^
-    /*while(fscanf(fp, "%100s %50s %50s\n", new_entry->url, new_entry->username, new_entry->password)) {
-        //entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
-
-    LLNode* current = account_list->head;
-    char *website, *username, *password;
-
-    while(fscanf(fp, "%s %s %s\n", website, username, password)) {
-        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));        
-
-        current = (LLNode*)malloc(sizeof(LLNode));
-
-        strcpy(new_entry->url, website);
-        strcpy(new_entry->username, username);
-        strcpy(new_entry->password, password);
-
-        current->data = new_entry;*/
-       /*LL_push(account_list, new_entry); 
-        current = current->next;*/
-    /* }*/
-    
-    displayPasswordList(*account_list);
     fclose(fp);
     return 0;
 }
@@ -242,7 +363,7 @@ void displayPasswordList(LinkedList account_list) {
         printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
-    printf("\nNumber of Accounts: %d\n", account_list.size);
+    printf("\nNumber of Accounts: %d\n\n", account_list.size);
 }
 
 char* scanString(unsigned int size, char prompt[]) {
