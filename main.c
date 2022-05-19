@@ -315,7 +315,6 @@ void savePasswordList(LinkedList account_list){
     LLNode* node = account_list.head;
     /* Writing the employee list to the database file */
     while(node != NULL) {
-        // fwrite(node->data, sizeof(entry_t), 1, fp);
         fprintf(fp,"%s %s %s\n", node->data->url, node->data->username, node->data->password);
         node = node->next;
     }
@@ -355,15 +354,18 @@ void displayPasswordList(LinkedList account_list) {
         return;
     }
 
-    printf("\nWebsite                         Username                   Password\n");
-    printf("------------------------------  -------------------------  --------------------\n");
+    printf("     +================================+===========================+======================+\n");
+    printf("     | Website                        | Username                  | Password             |\n");
+    printf("     +================================+===========================+======================+\n");
 
     LLNode* node = account_list.head;
+    int i = 1;
     while(node != NULL) {
-        printf("%-30s  %-25s  %-20s\n", node->data->url, node->data->username, node->data->password);
+        printf("%3d. | %-30s | %-25s | %-20s |\n", i, node->data->url, node->data->username, node->data->password);
         node = node->next;
+        i++;
     }
-    printf("\nNumber of Accounts: %d\n\n", account_list.size);
+    printf("     +--------------------------------+---------------------------+----------------------+\n");
 }
 
 char* scanString(unsigned int size, char prompt[]) {

@@ -3,4 +3,6 @@
 
 #include "algorithms.h"
 
+char* XORCipher(char* data, char* key);
+
 #endif

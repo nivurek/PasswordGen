@@ -55,16 +55,19 @@ entry_t* LL_front(LinkedList* list) {
 }
 
 entry_t* LL_get(LinkedList* list, unsigned int position) {
+    /* Returns NULL if position is outside of the list */
     if(position >= list->size) {
         return NULL;
     }
-
+    
     LLNode* current = list->head;
 
+    /* Finds node at position */
     int i;
-    for(i = 0; i < position; i++) {
+    for(i = 1; i < position; i++) {
         current = current->next;
     }
 
+    /* Returns pointer to data at position */
     return current->data;
 }
