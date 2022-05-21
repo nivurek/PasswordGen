@@ -59,12 +59,12 @@ int main(void) {
             printf("Invalid Choice.\n");
             continue;
         }
-         if (loginInput == 3){
+        if (loginInput == 3) {
             printf("Exited program.");
             break;
         }
 
-        switch(loginInput){
+        switch(loginInput) {
             case 1:
             /* If key.txt contains data, calls the function insertKey()  */
 
@@ -73,8 +73,8 @@ int main(void) {
                 flag=1;
                 printMainMenu();
                 printf("\nPlease enter your choice (1-5): ");
-                fgets(line ,sizeof(line), stdin);
-                if(sscanf(line,"%d",&menuInput) != 1) {
+                fgets(line, sizeof(line), stdin);
+                if(sscanf(line,"%d", &menuInput) != 1) {
                     printf("Invalid Choice.\n");
                     continue;
                 }
@@ -85,22 +85,23 @@ int main(void) {
 
                 switch(menuInput){
                     case 1: 
-                    addEntry(&account_list);
-                    savePasswordList(account_list);
-                    break;
+                        addEntry(&account_list);
+                        savePasswordList(account_list);
+                        break;
                     case 2:
-                    deletePassword(&account_list);
-                    break;
+                        deletePassword(&account_list);
+                        savePasswordList(account_list);
+                        break;
                     case 3:
-                    editPassword(&account_list);
-                    break;
+                        editPassword(&account_list);
+                        savePasswordList(account_list);
+                        break;
                     case 4:
-                    displayPasswordList(account_list);
-                    break;
-
+                        displayPasswordList(account_list);
+                        break;
                     default:
-                    printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
-                    break;
+                        printf("Invalid choice.\n"); /* error message when a foreign input is entered e.g. 8 */
+                        break;
                     }
                 }         
             break;
@@ -262,15 +263,38 @@ void addEntry(LinkedList* account_list) {
     free(website);
     free(username);
     free(password);
-    
 }
 
 void deletePassword(LinkedList* account_list) {
-    LL_pop(account_list); 
+    char line[100];
+    int input;
+
+    printf("\nPlease enter the decimal of the entry you would like to delete: ");
+    fgets(line, sizeof(line), stdin);
+    while(sscanf(line,"%d", &input) != 1 || input > account_list->size || input <  1) {
+        printf("Invalid input. Try again: ");
+        fgets(line, sizeof(line), stdin);
+    }
+
+    LL_remove(account_list, input - 1);
 }
 
 void editPassword(LinkedList* account_list){
+    char line[100];
+    int input;
 
+    printf("\nPlease enter the decimal of the entry you would like to edit: ");
+    fgets(line, sizeof(line), stdin);
+    while(sscanf(line,"%d", &input) != 1 || input > account_list->size || input <  1) {
+        printf("Invalid input. Try again: ");
+        fgets(line, sizeof(line), stdin);
+    }
+    
+    entry_t* entry = LL_get(account_list, input - 1);
+
+    strcpy(entry->url, scanString(MAX_WEBSITE_SIZE, "Enter new website: "));
+    strcpy(entry->username, scanString(MAX_USERNAME_SIZE, "Enter new username: "));
+    strcpy(entry->password, scanString(MAX_PASSWORD_SIZE, "Enter new password: "));
     
     /* deletePassword(account_list);
     addEntry(account_list); */
