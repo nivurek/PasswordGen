@@ -54,17 +54,49 @@ entry_t* LL_front(LinkedList* list) {
     }
 }
 
-entry_t* LL_get(LinkedList* list, unsigned int position) {
+void LL_remove(LinkedList* list, unsigned int position) {
+    /* Edge case where position is outside the list */
     if(position >= list->size) {
-        return NULL;
+        return;
+    }
+    else if(position == 0) {
+        LL_pop(list);
+        return;
     }
 
     LLNode* current = list->head;
 
+    /* Gets the node 1 before the node to delete */
+    int i;
+    for(i = 0; i < position - 1; i++) {
+        current = current->next;
+    }
+
+    /* Removing node from list */
+    LLNode* temp = current->next;
+    current->next = current->next->next;
+
+    /* Freeing memory & reducing list size by 1 */
+    free(temp->data);
+    free(temp);
+    (list->size)--;
+
+}
+
+entry_t* LL_get(LinkedList* list, unsigned int position) {
+    /* Returns NULL if position is outside of the list */
+    if(position >= list->size) {
+        return NULL;
+    }
+    
+    LLNode* current = list->head;
+
+    /* Finds node at position */
     int i;
     for(i = 0; i < position; i++) {
         current = current->next;
     }
 
+    /* Returns pointer to data at position */
     return current->data;
 }
