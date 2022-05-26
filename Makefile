@@ -1,6 +1,6 @@
 
 output: obj/algorithms.o obj/cryptography.o obj/main.o
-	gcc -Wall -Ilibs/algorithms -Ilibs/cryptography main.c obj/algorithms.o obj/cryptography.o -o output
+	gcc -Wall -ansi -Ilibs/algorithms -Ilibs/cryptography main.c obj/algorithms.o obj/cryptography.o -o output
 
 obj/algorithms.o: libs/algorithms/algorithms.c libs/algorithms/algorithms.h
 	gcc -c libs/algorithms/algorithms.c -o obj/algorithms.o

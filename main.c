@@ -10,8 +10,8 @@
 #define MAX_USERNAME_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
 #define MAX_ARRAY_SIZE 50
-#define DATABASE_FILE_NAME "passwords.txt"
-#define KEY_FILE_NAME "key.txt"
+#define DATABASE_FILE_NAME "passwords.bin"
+#define KEY_FILE_NAME "key.bin"
 
 /******************************************************************************
  * Function prototypes
@@ -27,6 +27,7 @@ void displayPasswordList(LinkedList account_list);
 void savePasswordList(LinkedList account_list, char* key);
 int readPasswordList(LinkedList* account_list, char* key);
 char* scanString(unsigned int size, char prompt[]);
+void xorEntry(entry_t* entry, char* key);
 
 
 /******************************************************************************
@@ -37,7 +38,7 @@ int main(void) {
     LinkedList account_list;
     account_list.size = 0;
     account_list.head = NULL;
-    char* key = "HelloWorld";
+    char* key = "hello";
     /* char dbFileName[] = "database.txt"; */
 
     
@@ -66,7 +67,7 @@ int main(void) {
 
         switch(loginInput) {
             case 1:
-            /* If key.txt contains data, calls the function insertKey()  */
+                /* If key.txt contains data, calls the function insertKey()  */
                 readPasswordList(&account_list, key);
 
                 while(1){
@@ -246,24 +247,19 @@ void addEntry(LinkedList* account_list) {
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
     /* Getting the inputted website that is relevant to the user's accountand putting it into the entry */
-    char* website = scanString(MAX_WEBSITE_SIZE, "Enter website: ");
-    strcpy(new_entry->url, website);
+    new_entry->url= scanString(MAX_WEBSITE_SIZE, "Enter website: ");
+    new_entry->url_len = strlen(new_entry->url);
 
     /* Getting user's account username input and putting it into entry */
-    char* username = scanString(MAX_USERNAME_SIZE, "Enter username: ");
-    strcpy(new_entry->username, username);
+    new_entry->username = scanString(MAX_USERNAME_SIZE, "Enter username: ");
+    new_entry->user_len= strlen(new_entry->username);
 
     /* Getting user password input and putting it into entry */
-    char* password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
-    strcpy(new_entry->password, password);
+    new_entry->password = scanString(MAX_PASSWORD_SIZE, "Enter password: ");
+    new_entry->pass_len = strlen(new_entry->password);
 
     /* Adding the entry to the account_list */
     LL_push(account_list, new_entry);
-
-    /* Freeing memory */
-    free(website);
-    free(username);
-    free(password);
 }
 
 void deletePassword(LinkedList* account_list) {
@@ -299,48 +295,94 @@ void editPassword(LinkedList* account_list){
     entry_t* entry = LL_get(account_list, input - 1);
 
     /* Getting new values for entry */
-    strcpy(entry->url, scanString(MAX_WEBSITE_SIZE, "Enter new website: "));
-    strcpy(entry->username, scanString(MAX_USERNAME_SIZE, "Enter new username: "));
-    strcpy(entry->password, scanString(MAX_PASSWORD_SIZE, "Enter new password: "));
+    entry->url = scanString(MAX_WEBSITE_SIZE, "Enter new website: ");
+    entry->url_len = strlen(entry->url);
+
+    entry->username = scanString(MAX_USERNAME_SIZE, "Enter new username: ");
+    entry->user_len = strlen(entry->username);
+
+    entry->password = scanString(MAX_PASSWORD_SIZE, "Enter new password: ");
+    entry->pass_len = strlen(entry->password);
 }
 
 void savePasswordList(LinkedList account_list, char* key) {
     FILE *fp;
-    if((fp = fopen(DATABASE_FILE_NAME, "w")) == NULL) {
+    if((fp = fopen(DATABASE_FILE_NAME, "wb")) == NULL) {
         printf("Write error");
         return;
     }
 
+    /* Writing the size of the list to the file */    
+    fwrite(&account_list.size, sizeof(unsigned int), 1, fp);
+
+    /* Incremement through the linked list */
     LLNode* node = account_list.head;
-    /* Writing the employee list to the database file */
     while(node != NULL) {
-        fprintf(fp,"%s %s %s", node->data->url, node->data->username, node->data->password);
-        fputs("\n", fp);
+        entry_t temp = *(node->data);
+        /* Encrypting the entry */
+        xorEntry(&temp, key);
+
+        /* Writing url to file */
+        fwrite(&temp.url_len, sizeof(size_t), 1, fp);
+        fwrite(temp.url, temp.url_len + 1, 1, fp);
+
+        /* Writing username to file */
+        fwrite(&temp.user_len, sizeof(size_t), 1, fp);
+        fwrite(temp.username, temp.user_len + 1, 1, fp);
+
+        /* Writing password to file */
+        fwrite(&temp.pass_len, sizeof(size_t), 1, fp);
+        fwrite(temp.password, temp.pass_len + 1, 1, fp);
+
         node = node->next;
     }
-    printf("Saved into passwords.txt successfully.\n");
-
-    /*Close file */
+    printf("Saved into passwords.bin successfully.\n");
     fclose(fp);
 }
 
 int readPasswordList(LinkedList* account_list, char* key) {
     FILE *fp;
 
-    if((fp = fopen(DATABASE_FILE_NAME, "r")) == NULL) {
+    /* Opening the file, if the file fails to open return from function */
+    if((fp = fopen(DATABASE_FILE_NAME, "rb")) == NULL) {
         printf("Read error");
         return 0;
     }
-   
-    while(1) {
-        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
-        if(fscanf(fp, "%s %s %s", new_entry->url, new_entry->username, new_entry->password) == 3) {           
-            LL_push(account_list, new_entry);
-        }
-        else {
-            break;
-        }
+
+    /* Ensuring account list is already empty */
+    while(account_list->size > 0) {
+        LL_pop(account_list);
     }
+
+    /* Reading in the size of the list */
+    unsigned int list_size;
+    fread(&list_size, sizeof(unsigned int), 1, fp);
+
+    /* Reading in each entry in the file */
+    int i;
+    for(i = 0; i < list_size; i++) {
+        entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
+        
+        /* Reading in url */
+        fread(&new_entry->url_len, sizeof(size_t), 1, fp);
+        new_entry->url = (char*)malloc(new_entry->url_len);
+        fread(new_entry->url, new_entry->url_len + 1, 1, fp);
+
+        /* Reading in username */
+        fread(&new_entry->user_len, sizeof(size_t), 1, fp);
+        new_entry->username= (char*)malloc(new_entry->user_len);
+        fread(new_entry->username, new_entry->user_len + 1, 1, fp);
+
+        /* Reading in password */ 
+        fread(&new_entry->pass_len, sizeof(size_t), 1, fp);
+        new_entry->password = (char*)malloc(new_entry->pass_len);
+        fread(new_entry->password, new_entry->pass_len + 1, 1, fp);
+
+        /* Decrypting file and adding to account list */
+        xorEntry(new_entry, key);
+        LL_push(account_list, new_entry);
+    }
+
     fclose(fp);
     return 1;
 }
@@ -382,3 +424,12 @@ char* scanString(unsigned int size, char prompt[]) {
     return result;
 }
 
+void xorEntry(entry_t* entry, char* key) {
+    /* Encrypting each string in entry */
+    entry->url = XORCipher(entry->url, key, entry->url_len);
+    entry->username = XORCipher(entry->username, key, entry->user_len);
+    entry->password = XORCipher(entry->password, key, entry->pass_len);
+    entry->url[entry->url_len] = '\0';
+    entry->username[entry->user_len] = '\0';
+    entry->password[entry->pass_len] = '\0';
+}
