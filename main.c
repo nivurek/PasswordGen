@@ -47,6 +47,8 @@ int main(void) {
     char* key = (char*)malloc(MAX_KEY_SIZE);
 
     loginMenu(&account_list, key);
+    
+    free(key);
 
     return 0;
 }
@@ -294,6 +296,10 @@ void addEntry(LinkedList* account_list) {
 }
 
 void deleteEntry(LinkedList* account_list) {
+    /* Edge case where list is empty */
+    if(account_list->size <= 0) {
+        return;
+    }
     char line[100];
     int input;
 
@@ -310,6 +316,10 @@ void deleteEntry(LinkedList* account_list) {
 }
 
 void editEntry(LinkedList* account_list){ 
+    /* Edge case where list is empty */
+    if(account_list->size <= 0) {
+        return;
+    }
     char line[100];
     int input;
 
