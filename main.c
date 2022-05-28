@@ -561,6 +561,7 @@ char* scanString(unsigned int size, char prompt[]) {
     /* Removing the newline at the end of the user input */
     buffer[strcspn(buffer, "\n")] = '\0';
 
+    /* Flushing the stdin buffer if the length of the string exceeds the maximum */
     if(strlen(buffer) + 1 >= size) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF) { }
