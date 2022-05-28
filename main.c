@@ -529,21 +529,21 @@ void displayEntryList(LinkedList account_list) {
     }
 
     /* Print header */
-    printf("     +================================+===========================+======================+\n");
-    printf("     | Website                        | Username                  | Password             |\n");
-    printf("     +================================+===========================+======================+\n");
+    printf("     +===================================+===========================+===========================+\n");
+    printf("     | Website                           | Username                  | Password                  |\n");
+    printf("     +===================================+===========================+===========================+\n");
 
     /* Increment though list, printing each entry */
     LLNode* node = account_list.head;
     int i = 1;
     while(node != NULL) {
-        printf("%3d. | %-30s | %-25s | %-20s |\n", i, node->data->url, node->data->username, node->data->password);
+        printf("%3d. | %-.33s | %-.25s | %-.25s |\n", i, node->data->url, node->data->username, node->data->password);
         node = node->next;
         i++;
     }
 
     /* Print footer */
-    printf("     +--------------------------------+---------------------------+----------------------+\n");
+    printf("     +===================================+===========================+===========================+\n");
 }
 
 /******************************************************************************
@@ -556,7 +556,7 @@ char* scanString(unsigned int size, char prompt[]) {
     printf("%s", prompt);
 
     /* Creating a buffer that will contain the user input */
-    char buffer[100];
+    char buffer[512];
     fgets(buffer, sizeof(buffer), stdin);
     /* Removing the newline at the end of the user input */
     buffer[strcspn(buffer, "\n")] = '\0';

@@ -15,7 +15,9 @@ obj/cryptography.o
 
 obj/main.o
 
-passwords.txt
+passwords.bin
+
+key.bin
 
 *.exe
 
