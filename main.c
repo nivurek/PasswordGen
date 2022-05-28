@@ -561,7 +561,11 @@ char* scanString(unsigned int size, char prompt[]) {
     /* Removing the newline at the end of the user input */
     buffer[strcspn(buffer, "\n")] = '\0';
 
-    fseek(stdin, 0, SEEK_END);
+    /* Flushing the stdin buffer if the length of the string exceeds the maximum */
+    if(strlen(buffer) + 1 >= size) {
+        int c;
+        while ((c = getchar()) != '\n' && c != EOF) { }
+    }
 
     /* Converting the char array into a char pointer to be returned */
     char* result = (char*)malloc(size);
