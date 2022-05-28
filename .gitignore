@@ -1,9 +1,3 @@
-obj/algorithms.o
-
-obj/cryptography.o  
-
-obj/main.o
-
 passwords.bin
 
 key.bin
@@ -11,3 +5,5 @@ key.bin
 *.exe
 
 .vscode/
+
+PasswordManager
