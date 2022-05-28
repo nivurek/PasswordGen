@@ -537,7 +537,7 @@ void displayEntryList(LinkedList account_list) {
     LLNode* node = account_list.head;
     int i = 1;
     while(node != NULL) {
-        printf("%3d. | %-.33s | %-.25s | %-.25s |\n", i, node->data->url, node->data->username, node->data->password);
+        printf("%3d. | %-33.33s | %-25.25s | %-25.25s |\n", i, node->data->url, node->data->username, node->data->password);
         node = node->next;
         i++;
     }
@@ -556,10 +556,12 @@ char* scanString(unsigned int size, char prompt[]) {
     printf("%s", prompt);
 
     /* Creating a buffer that will contain the user input */
-    char buffer[512];
+    char buffer[size];
     fgets(buffer, sizeof(buffer), stdin);
     /* Removing the newline at the end of the user input */
     buffer[strcspn(buffer, "\n")] = '\0';
+
+    fseek(stdin, 0, SEEK_END);
 
     /* Converting the char array into a char pointer to be returned */
     char* result = (char*)malloc(size);
