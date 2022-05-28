@@ -1,32 +1,20 @@
 #ifndef ALGORITHMS_H 
 #define ALGORITHMS_H
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <math.h>
 
 struct entry {
-    char url[100];
-    char username [50];
-    char password[50];
+    char* url;
+    char* username;
+    char* password;
+
+    size_t url_len;
+    size_t user_len;
+    size_t pass_len;
 };
 typedef struct entry entry_t;
-
-/******************************************************************************
- * Min Heap
-******************************************************************************/
-struct MinHNode {
-    char data;
-    unsigned freq;
-    struct MinHNode *left, *right;
-};
-typedef struct MinHNode MHNode;
-
-struct MinHeap {
-    unsigned size;
-    unsigned capacity;
-    MHNode **root;
-};
-typedef struct MinHeap MinHeap;
-
-MinHeap *createMinH(unsigned capacity);
-
 
 /******************************************************************************
  * Linked List
