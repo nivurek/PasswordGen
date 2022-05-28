@@ -9,11 +9,11 @@ libs/algorithms/algorithm_driver.c
 
 libs/algorithms/algorithm_driver.o
 
-obj/algorithms.o
+algorithms.o
 
-obj/cryptography.o  
+cryptography.o  
 
-obj/main.o
+main.o
 
 passwords.txt
 
