@@ -4,9 +4,10 @@
 #include <string.h>
 #include <math.h>
 
-MinHeap *createMinH(unsigned capacity) {
-
-}
+/******************************************************************************
+ * LL_push
+ * Adds data to front of linked list.
+******************************************************************************/
 void LL_push(LinkedList* list, entry_t* data) {
     /* Allocating memory to new node */
     LLNode* node = (LLNode*)malloc(sizeof(LLNode));
@@ -19,6 +20,10 @@ void LL_push(LinkedList* list, entry_t* data) {
     (list->size)++;
 }
 
+/******************************************************************************
+ * LL_pop
+ * Removes data from front of linked list.
+******************************************************************************/
 void LL_pop(LinkedList* list) {
     /* Edge case where list is already empty */
     if(list->size <= 0) {
@@ -43,6 +48,10 @@ void LL_pop(LinkedList* list) {
     free(node);
 }
 
+/******************************************************************************
+ * LL_front
+ * Returns data from front of linked list.
+******************************************************************************/
 entry_t* LL_front(LinkedList* list) {
     /* If the list is not empty, return the data held in the head.
        Otherwise, return NULL */
@@ -54,6 +63,10 @@ entry_t* LL_front(LinkedList* list) {
     }
 }
 
+/******************************************************************************
+ * LL_remove  
+ * Removes node at position in linked list (indexed from 0).
+******************************************************************************/
 void LL_remove(LinkedList* list, unsigned int position) {
     /* Edge case where position is outside the list */
     if(position >= list->size) {
@@ -83,6 +96,10 @@ void LL_remove(LinkedList* list, unsigned int position) {
 
 }
 
+/******************************************************************************
+ * LL_get
+ * Returns pointer to data at position in linked list (indexed from 0).
+******************************************************************************/
 entry_t* LL_get(LinkedList* list, unsigned int position) {
     /* Returns NULL if position is outside of the list */
     if(position >= list->size) {

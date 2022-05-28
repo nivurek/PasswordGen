@@ -1,11 +1,34 @@
+/******************************************************************************
+ * PASSWORD MANAGER
+ * 
+ * Compilation Instructions:                    Terminal Input:
+ *  1. Make using make file.                    1. make
+ *  2. Run PasswordManager file.                2. ./PasswordManager
+ * 
+ * 
+ * Project Group 3
+ * Students:
+ *  - Aidan Grigg (14314328) | Lab 07
+ *  - 
+ *  - 
+******************************************************************************/
+
+/******************************************************************************
+ * Includes
+******************************************************************************/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
-#include "algorithms.h"
+
+/* Library containing LinkedList struct, Entry struct and associated functions */
+#include "algorithms.h" 
+/* Library containing XOR Cipher function */
 #include "cryptography.h"
 
-
+/******************************************************************************
+ * Defines
+******************************************************************************/
 #define MAX_WEBSITE_SIZE 100
 #define MAX_USERNAME_SIZE 50
 #define MAX_PASSWORD_SIZE 50  
@@ -18,10 +41,10 @@
 /******************************************************************************
  * Function prototypes
 ******************************************************************************/
-void printMainMenu(void);
-void printLoginMenu(void);
 void loginMenu(LinkedList* account_list, char* key);
 void mainMenu(LinkedList* account_list, char* key);
+void printMainMenu(void);
+void printLoginMenu(void);
 
 void createKey(char* key);
 void loginKey(char* key);
@@ -53,29 +76,11 @@ int main(void) {
     return 0;
 }
 
-void printLoginMenu(void) {
-    printf(
-    "================================\n"
-    "           Login Menu           \n"
-    "================================\n"
-     "1. Unlock\n"
-     "2. Create Key\n"
-     "3. Exit Password Manager\n");
-}
-
-void printMainMenu(void) {
-    printf(
-    "================================\n"
-    "           Main Menu            \n"
-    "================================\n"
-     "1. Add an account\n"
-     "2. Delete an account\n"
-     "3. Edit an account\n"
-     "4. Display account list\n"
-     "5. Change key\n"
-     "6. Exit program\n");
-}
-
+/******************************************************************************
+ * loginMenu
+ * Takes the user input for the login menu and calls the corresponding function
+ * related to users input.
+******************************************************************************/
 void loginMenu(LinkedList* account_list, char* key) {
     int loginInput;
     char line[100];
@@ -112,6 +117,11 @@ void loginMenu(LinkedList* account_list, char* key) {
     }
 }
 
+/******************************************************************************
+ * mainMenu
+ * Takes the user input for the main menu and calls the corresponding function
+ * related to users input.
+******************************************************************************/
 void mainMenu(LinkedList* account_list, char* key) {
     int menuInput;
     char line[100];
@@ -160,6 +170,42 @@ void mainMenu(LinkedList* account_list, char* key) {
     }         
 }
 
+/******************************************************************************
+ * printLoginMenu - LOGIN MENU
+ * Prints the login menu.
+******************************************************************************/
+void printLoginMenu(void) {
+    printf(
+    "================================\n"
+    "           Login Menu           \n"
+    "================================\n"
+     "1. Unlock\n"
+     "2. Create Key\n"
+     "3. Exit Password Manager\n");
+}
+
+/******************************************************************************
+ * printMainMenu - MAIN MENU
+ * Prints the main menu.
+******************************************************************************/
+void printMainMenu(void) {
+    printf(
+    "================================\n"
+    "           Main Menu            \n"
+    "================================\n"
+     "1. Add an account\n"
+     "2. Delete an account\n"
+     "3. Edit an account\n"
+     "4. Display account list\n"
+     "5. Change key\n"
+     "6. Exit program\n");
+}
+
+/******************************************************************************
+ * createKey - LOGIN MENU
+ * Prompts user for a key and creates a file to save it into.
+ * Returns key through key parameter.
+******************************************************************************/
 void createKey(char* key) {
     /* Checking if there is already a key */
     FILE* fp;
@@ -203,6 +249,11 @@ void createKey(char* key) {
     fclose(fp);
 }
 
+/******************************************************************************
+ * createKey - LOGIN MENU
+ * Prompts user for a prexisting key and tests it against key saved to file.
+ * If the keys are the same, returns key through key parameter.
+******************************************************************************/
 void loginKey(char* key) {
     /* Checking if there is not already a key */
     FILE* fp;
@@ -241,6 +292,12 @@ void loginKey(char* key) {
     fclose(fp);
 }
 
+/******************************************************************************
+ * editKey - MAIN MENU
+ * Prompts user for a key and saves it to key file. Re-saves the password list
+ * encrypted with the newly inputted user key.
+ * Returns key through key parameter. 
+******************************************************************************/
 void editKey(LinkedList account_list, char* key) {
 
     /* Getting a users key input */
@@ -273,8 +330,17 @@ void editKey(LinkedList account_list, char* key) {
 
     fwrite(&key_len, sizeof(size_t), 1, fp);
     fwrite(encrypted_key, key_len + 1, 1, fp);
+
+    free(encrypted_key);
+    free(first_key);
+    free(second_key);
 }
 
+/******************************************************************************
+ * addEntry - MAIN MENU
+ * Creates a new entry, gets user inputted values for the entry, and adds
+ * it to the list.
+******************************************************************************/
 void addEntry(LinkedList* account_list) {
     /* Allocating memory for new entry */
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
@@ -295,6 +361,10 @@ void addEntry(LinkedList* account_list) {
     LL_push(account_list, new_entry);
 }
 
+/******************************************************************************
+ * deleteEntry - MAIN MENU
+ * Prompts user input for the node to delete, and removes it from the list.
+******************************************************************************/
 void deleteEntry(LinkedList* account_list) {
     /* Edge case where list is empty */
     if(account_list->size <= 0) {
@@ -315,6 +385,11 @@ void deleteEntry(LinkedList* account_list) {
     LL_remove(account_list, input - 1);
 }
 
+/******************************************************************************
+ * editEntry - MAIN MENU
+ * Prompts user input for the node to edit, and and updates the nth 
+ * nodes values with newly prompted values. 
+******************************************************************************/
 void editEntry(LinkedList* account_list){ 
     /* Edge case where list is empty */
     if(account_list->size <= 0) {
@@ -345,6 +420,14 @@ void editEntry(LinkedList* account_list){
     entry->pass_len = strlen(entry->password);
 }
 
+/******************************************************************************
+ * saveEntryList - MAIN MENU
+ * Saves the entry linked list to a  binary file. File is formatted as follows.
+ * 
+ * Size of the list is saved at the start of the binary file, followed by each
+ * entry in the following format:
+ * {url length , url , username length , username , password length , password}
+******************************************************************************/
 void saveEntryList(LinkedList account_list, char* key) {
     FILE *fp;
     if((fp = fopen(DATABASE_FILE_NAME, "wb")) == NULL) {
@@ -380,6 +463,15 @@ void saveEntryList(LinkedList account_list, char* key) {
     fclose(fp);
 }
 
+/******************************************************************************
+ * readEntryList - MAIN MENU
+ * Reads the saved binary file into the account list. 
+ * File is formatted as follows.
+ * 
+ * Size of the list is saved at the start of the binary file, followed by each
+ * entry in the following format:
+ * {url length , url , username length , username , password length , password}
+******************************************************************************/
 void readEntryList(LinkedList* account_list, char* key) {
     FILE *fp;
 
@@ -425,7 +517,10 @@ void readEntryList(LinkedList* account_list, char* key) {
     fclose(fp);
 }
 
-
+/******************************************************************************
+ * displayEntryList - MAIN MENU
+ * Displays the list in a formatted table.
+******************************************************************************/
 void displayEntryList(LinkedList account_list) {
     /* Edge case where list is empty */
     if(account_list.size <= 0) {
@@ -451,6 +546,11 @@ void displayEntryList(LinkedList account_list) {
     printf("     +--------------------------------+---------------------------+----------------------+\n");
 }
 
+/******************************************************************************
+ * scanString - HELPER FUNCTION
+ * Prompts user with the prompt parameter and returns a pointer to a string of
+ * maximum size in parameter.
+******************************************************************************/
 char* scanString(unsigned int size, char prompt[]) {
     /* Printing out prompt */
     printf("%s", prompt);
@@ -467,6 +567,10 @@ char* scanString(unsigned int size, char prompt[]) {
     return result;
 }
 
+/******************************************************************************
+ * xorEntry - HELPER FUNCTION
+ * Applies XOR cipher to each string in entry.
+******************************************************************************/
 void xorEntry(entry_t* entry, char* key) {
     /* Encrypting each string in entry */
     entry->url = XORCipher(entry->url, key, entry->url_len);

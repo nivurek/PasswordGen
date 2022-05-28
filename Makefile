@@ -1,6 +1,6 @@
 
-output: obj/algorithms.o obj/cryptography.o obj/main.o
-	gcc -Wall -ansi -Ilibs/algorithms -Ilibs/cryptography main.c obj/algorithms.o obj/cryptography.o -o output
+PasswordManager: obj/algorithms.o obj/cryptography.o obj/main.o
+	gcc -Wall -ansi -Ilibs/algorithms -Ilibs/cryptography main.c obj/algorithms.o obj/cryptography.o -o PasswordManager  
 
 obj/algorithms.o: libs/algorithms/algorithms.c libs/algorithms/algorithms.h
 	gcc -c libs/algorithms/algorithms.c -o obj/algorithms.o
@@ -12,4 +12,4 @@ obj/main.o: main.c
 	gcc -Ilibs/algorithms -Ilibs/cryptography -c main.c obj/algorithms.o obj/cryptography.o -o obj/main.o
 
 clean:
-	del obj\*.o output.exe
+	del obj\*.o PasswordManager.exe

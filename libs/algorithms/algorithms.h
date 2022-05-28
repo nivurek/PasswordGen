@@ -17,26 +17,6 @@ struct entry {
 typedef struct entry entry_t;
 
 /******************************************************************************
- * Min Heap
-******************************************************************************/
-struct MinHNode {
-    char data;
-    unsigned freq;
-    struct MinHNode *left, *right;
-};
-typedef struct MinHNode MHNode;
-
-struct MinHeap {
-    unsigned size;
-    unsigned capacity;
-    MHNode **root;
-};
-typedef struct MinHeap MinHeap;
-
-MinHeap *createMinH(unsigned capacity);
-
-
-/******************************************************************************
  * Linked List
 ******************************************************************************/
 struct LLNode {
