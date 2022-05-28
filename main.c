@@ -144,7 +144,32 @@ void printMainMenu(void) {
 }
 
 void createKey(void){
+/* Loop to validate if key.bin exists or not  */
 
+    /* 
+    if (NULL != fp) {
+    fseek (fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    if (0 == size) {
+        printf("file is empty\n");
+    }
+} */
+
+/* IF key does not exist, allow user to create key */
+    /* char firstKey[MAX_ARRAY_SIZE] = scanString(MAX_ARRAY_SIZE, "Create a key: "); */
+    
+    /* Checks if first key input matches second (confirm input) */
+    /* char *key[MAX_ARRAY_SIZE] = scanString(MAX_ARRAY_SIZE, "Enter key to confirm: "); */
+        /* Use strcmp */
+        
+    /* Add key into array */
+    /* Encrypts then writes the key into key.bin */
+
+/* IF key exists already */
+    /*printf("There is already an existing key! Redirecting to unlock")  */
+
+    /*Enter function to redirect user to unlockKey menu */
 }
 
 
