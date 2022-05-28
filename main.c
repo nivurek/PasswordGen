@@ -529,7 +529,7 @@ void displayEntryList(LinkedList account_list) {
     }
 
     /* Print header */
-    printf("     +====================================================+================================+================================+\n");
+    printf("\n     +====================================================+================================+================================+\n");
     printf("     | Website                                            | Username                       | Password                       |\n");
     printf("     +====================================================+================================+================================+\n");
 
@@ -543,7 +543,7 @@ void displayEntryList(LinkedList account_list) {
     }
 
     /* Print footer */
-printf("     +====================================================+================================+================================+\n");
+printf("     +====================================================+================================+================================+\n\n");
 }
 
 /******************************************************************************
@@ -562,9 +562,13 @@ char* scanString(unsigned int size, char prompt[]) {
     buffer[strcspn(buffer, "\n")] = '\0';
 
     /* Flushing the stdin buffer if the length of the string exceeds the maximum */
-    if(strlen(buffer) + 1 >= size) {
+    while(strlen(buffer) + 1 >= size) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF) { }
+
+        printf("Input is too large! Try again: ");
+        fgets(buffer, sizeof(buffer), stdin);
+        buffer[strcspn(buffer, "\n")] = '\0';
     }
 
     /* Converting the char array into a char pointer to be returned */
