@@ -29,9 +29,9 @@
 /******************************************************************************
  * Defines
 ******************************************************************************/
-#define MAX_WEBSITE_SIZE 100
-#define MAX_USERNAME_SIZE 50
-#define MAX_PASSWORD_SIZE 50  
+#define MAX_WEBSITE_SIZE 50
+#define MAX_USERNAME_SIZE 30
+#define MAX_PASSWORD_SIZE 30
 #define MAX_KEY_SIZE 50
 
 #define DATABASE_FILE_NAME "passwords.bin"
@@ -529,21 +529,21 @@ void displayEntryList(LinkedList account_list) {
     }
 
     /* Print header */
-    printf("     +===================================+===========================+===========================+\n");
-    printf("     | Website                           | Username                  | Password                  |\n");
-    printf("     +===================================+===========================+===========================+\n");
+    printf("     +====================================================+================================+================================+\n");
+    printf("     | Website                                            | Username                       | Password                       |\n");
+    printf("     +====================================================+================================+================================+\n");
 
     /* Increment though list, printing each entry */
     LLNode* node = account_list.head;
     int i = 1;
     while(node != NULL) {
-        printf("%3d. | %-33.33s | %-25.25s | %-25.25s |\n", i, node->data->url, node->data->username, node->data->password);
+        printf("%3d. | %-50s | %-30s | %-30s |\n", i, node->data->url, node->data->username, node->data->password);
         node = node->next;
         i++;
     }
 
     /* Print footer */
-    printf("     +===================================+===========================+===========================+\n");
+printf("     +====================================================+================================+================================+\n");
 }
 
 /******************************************************************************
