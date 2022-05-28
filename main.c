@@ -43,7 +43,7 @@ int main(void) {
 
     
 /******************************************************************************
- * User Interface/ Menu 
+ * User Interfaces
 ******************************************************************************/
     printf("\nWelcome to Password Manager\n");
 
@@ -64,8 +64,8 @@ int main(void) {
             printf("Exited program.");
             break;
         }
-
-        switch(loginInput) {
+    /* Key Login menu (outer) with nested Main Menu (inner) */
+        switch(loginInput){
             case 1:
                 /* If key.txt contains data, calls the function insertKey()  */
                 readPasswordList(&account_list, key);
@@ -121,86 +121,6 @@ int main(void) {
 }
 
 
-
-    
-/* 
-    while(1){
-        readPasswordList(&account_list,flag);
-        flag=1;
-        printMainMenu();
-        char line[100];
-        printf("\nPlease enter your choice (1-5): ");
-        fgets(line ,sizeof(line), stdin);
-        if(sscanf(line,"%d",&menuInput) != 1) {
-            printf("Invalid Choice.\n");
-            continue;
-        }
-        
-        if (menuInput == 5){
-            printf("Exiting Program..");
-            break;
-        }
-
-        switch(menuInput){
-            case 1: 
-            addEntry(&account_list);
-            savePasswordList(account_list);
-            break;
-            case 2:
-            deletePassword(&account_list);
-            break;
-            case 3:
-            editPassword(&account_list);
-            break;
-            case 4:
-            displayPasswordList(account_list);
-            break;
-            case 5:
-            return 0;
-
-            default:
-            printf("Invalid choice.\n"); 
-            break;
-        }
-    }
-    return 0; */
-
-
-/******************************************************************************
- * Key Login Interface/ Sub-menu
-******************************************************************************/
-
-/*  while(1){
-    printLoginMenu();
-    char line[100];
-        printf("\nPlease enter your choice (1-3): ");
-        fgets(line ,sizeof(line), stdin);
-        
-        if(sscanf(line,"%d",&loginInput) != 1) {
-            printf("Invalid Choice.\n");
-            continue;
-        }
-         if (loginInput == 3){
-            printf("Exiting Program..");
-            break;
-        }
-
-        switch(loginInput){
-            case 1: 
-            useKey();
-            switch1();
-            break;
-            case 2:
-            createKey();
-            break;
-
-            default:
-            printf("Invalid choice.\n"); 
-            break;
-        }
-    return 0;
-} */
-
 void printLoginMenu(void) {
     printf(
     "================================\n"
@@ -224,7 +144,32 @@ void printMainMenu(void) {
 }
 
 void createKey(void){
+/* Loop to validate if key.bin exists or not  */
 
+    /* 
+    if (NULL != fp) {
+    fseek (fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    if (0 == size) {
+        printf("file is empty\n");
+    }
+} */
+
+/* IF key does not exist, allow user to create key */
+    /* char firstKey[MAX_ARRAY_SIZE] = scanString(MAX_ARRAY_SIZE, "Create a key: "); */
+    
+    /* Checks if first key input matches second (confirm input) */
+    /* char *key[MAX_ARRAY_SIZE] = scanString(MAX_ARRAY_SIZE, "Enter key to confirm: "); */
+        /* Use strcmp */
+        
+    /* Add key into array */
+    /* Encrypts then writes the key into key.bin */
+
+/* IF key exists already */
+    /*printf("There is already an existing key! Redirecting to unlock")  */
+
+    /*Enter function to redirect user to unlockKey menu */
 }
 
 
