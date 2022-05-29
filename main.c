@@ -10,7 +10,7 @@
  * Students:
  *  - Aidan Grigg (14314328)    | Lab 07
  *  - Vatsin Kumar (13760893)   | Lab 06
- *  - 
+*   - Kelvin Huang (13228186)   | Lab 05
 ******************************************************************************/
 
 /******************************************************************************
@@ -374,10 +374,10 @@ void deleteEntry(LinkedList_t* account_list) {
     int input;
 
     /* Getting user input of what entry they want to delete */ 
-    printf("\nPlease enter the decimal of the entry you would like to delete: ");
+    printf("\nPlease enter the number of the entry you would like to delete: ");
     fgets(line, sizeof(line), stdin);
     while(sscanf(line,"%d", &input) != 1 || input > account_list->size || input <  1) {
-        printf("Invalid input. Try again: ");
+        printf("Invalid input.\nPlease try again: ");
         fgets(line, sizeof(line), stdin);
     }
 
@@ -402,7 +402,7 @@ void editEntry(LinkedList_t* account_list){
     printf("\nPlease enter the decimal of the entry you would like to edit: ");
     fgets(line, sizeof(line), stdin);
     while(sscanf(line,"%d", &input) != 1 || input > account_list->size || input <  1) {
-        printf("Invalid input. Try again: ");
+        printf("Invalid input.\n Please try again: ");
         fgets(line, sizeof(line), stdin);
     }
     
@@ -459,7 +459,7 @@ void saveEntryList(LinkedList_t account_list, char* key) {
 
         node = node->next;
     }
-    printf("Saved into passwords.bin successfully.\n");
+    printf("Data updated successfully.\n");
     fclose(fp);
 }
 
@@ -566,7 +566,8 @@ char* scanString(unsigned int size, char prompt[]) {
         int c;
         while ((c = getchar()) != '\n' && c != EOF) { }
 
-        printf("Input is too large! Try again: ");
+    /* Validates the string to see if size of buffer array is more than the max defined size for the type of input */    
+    printf("Input is too large! Try again: ");
         fgets(buffer, sizeof(buffer), stdin);
         buffer[strcspn(buffer, "\n")] = '\0';
     }
