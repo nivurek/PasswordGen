@@ -8,9 +8,9 @@
  * LL_push
  * Adds data to front of linked list.
 ******************************************************************************/
-void LL_push(LinkedList* list, entry_t* data) {
+void LL_push(LinkedList_t* list, entry_t* data) {
     /* Allocating memory to new node */
-    LLNode* node = (LLNode*)malloc(sizeof(LLNode));
+    LLNode_t* node = (LLNode_t*)malloc(sizeof(LLNode_t));
 
     node->data = data;
     node->next = list->head;
@@ -24,14 +24,14 @@ void LL_push(LinkedList* list, entry_t* data) {
  * LL_pop
  * Removes data from front of linked list.
 ******************************************************************************/
-void LL_pop(LinkedList* list) {
+void LL_pop(LinkedList_t* list) {
     /* Edge case where list is already empty */
     if(list->size <= 0) {
         return;
     }
     
     /* Creates a temporary reference to the node being popped */
-    LLNode* node = list->head;
+    LLNode_t* node = list->head;
 
     /* Updates head pointer to point to the next node in 
        the list if it exists, otherwise pointing to NULL */ 
@@ -52,7 +52,7 @@ void LL_pop(LinkedList* list) {
  * LL_front
  * Returns data from front of linked list.
 ******************************************************************************/
-entry_t* LL_front(LinkedList* list) {
+entry_t* LL_front(LinkedList_t* list) {
     /* If the list is not empty, return the data held in the head.
        Otherwise, return NULL */
     if(list->size > 0) {
@@ -67,7 +67,7 @@ entry_t* LL_front(LinkedList* list) {
  * LL_remove  
  * Removes node at position in linked list (indexed from 0).
 ******************************************************************************/
-void LL_remove(LinkedList* list, unsigned int position) {
+void LL_remove(LinkedList_t* list, unsigned int position) {
     /* Edge case where position is outside the list */
     if(position >= list->size) {
         return;
@@ -77,7 +77,7 @@ void LL_remove(LinkedList* list, unsigned int position) {
         return;
     }
 
-    LLNode* current = list->head;
+    LLNode_t* current = list->head;
 
     /* Gets the node 1 before the node to delete */
     int i;
@@ -86,7 +86,7 @@ void LL_remove(LinkedList* list, unsigned int position) {
     }
 
     /* Removing node from list */
-    LLNode* temp = current->next;
+    LLNode_t* temp = current->next;
     current->next = current->next->next;
 
     /* Freeing memory & reducing list size by 1 */
@@ -100,13 +100,13 @@ void LL_remove(LinkedList* list, unsigned int position) {
  * LL_get
  * Returns pointer to data at position in linked list (indexed from 0).
 ******************************************************************************/
-entry_t* LL_get(LinkedList* list, unsigned int position) {
+entry_t* LL_get(LinkedList_t* list, unsigned int position) {
     /* Returns NULL if position is outside of the list */
     if(position >= list->size) {
         return NULL;
     }
     
-    LLNode* current = list->head;
+    LLNode_t* current = list->head;
 
     /* Finds node at position */
     int i;

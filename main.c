@@ -41,21 +41,21 @@
 /******************************************************************************
  * Function prototypes
 ******************************************************************************/
-void loginMenu(LinkedList* account_list, char* key);
-void mainMenu(LinkedList* account_list, char* key);
+void loginMenu(LinkedList_t* account_list, char* key);
+void mainMenu(LinkedList_t* account_list, char* key);
 void printMainMenu(void);
 void printLoginMenu(void);
 
 void createKey(char* key);
 void loginKey(char* key);
-void editKey(LinkedList account_list, char* key);
+void editKey(LinkedList_t account_list, char* key);
 
-void addEntry(LinkedList* account_list);
-void deleteEntry(LinkedList* account_list);
-void editEntry(LinkedList* account_list);
-void displayEntryList(LinkedList account_list);
-void saveEntryList(LinkedList account_list, char* key);
-void readEntryList(LinkedList* account_list, char* key);
+void addEntry(LinkedList_t* account_list);
+void deleteEntry(LinkedList_t* account_list);
+void editEntry(LinkedList_t* account_list);
+void displayEntryList(LinkedList_t account_list);
+void saveEntryList(LinkedList_t account_list, char* key);
+void readEntryList(LinkedList_t* account_list, char* key);
 
 char* scanString(unsigned int size, char prompt[]);
 void xorEntry(entry_t* entry, char* key);
@@ -64,7 +64,7 @@ void xorEntry(entry_t* entry, char* key);
  * Main
 ******************************************************************************/
 int main(void) {
-    LinkedList account_list;
+    LinkedList_t account_list;
     account_list.size = 0;
     account_list.head = NULL;
     char* key = (char*)malloc(MAX_KEY_SIZE);
@@ -81,7 +81,7 @@ int main(void) {
  * Takes the user input for the login menu and calls the corresponding function
  * related to users input.
 ******************************************************************************/
-void loginMenu(LinkedList* account_list, char* key) {
+void loginMenu(LinkedList_t* account_list, char* key) {
     int loginInput;
     char line[100];
 
@@ -122,7 +122,7 @@ void loginMenu(LinkedList* account_list, char* key) {
  * Takes the user input for the main menu and calls the corresponding function
  * related to users input.
 ******************************************************************************/
-void mainMenu(LinkedList* account_list, char* key) {
+void mainMenu(LinkedList_t* account_list, char* key) {
     int menuInput;
     char line[100];
     readEntryList(account_list, key);
@@ -298,7 +298,7 @@ void loginKey(char* key) {
  * encrypted with the newly inputted user key.
  * Returns key through key parameter. 
 ******************************************************************************/
-void editKey(LinkedList account_list, char* key) {
+void editKey(LinkedList_t account_list, char* key) {
 
     /* Getting a users key input */
     char* first_key = scanString(MAX_KEY_SIZE, "Enter new key: ");
@@ -341,7 +341,7 @@ void editKey(LinkedList account_list, char* key) {
  * Creates a new entry, gets user inputted values for the entry, and adds
  * it to the list.
 ******************************************************************************/
-void addEntry(LinkedList* account_list) {
+void addEntry(LinkedList_t* account_list) {
     /* Allocating memory for new entry */
     entry_t* new_entry = (entry_t*)malloc(sizeof(entry_t));
 
@@ -365,7 +365,7 @@ void addEntry(LinkedList* account_list) {
  * deleteEntry - MAIN MENU
  * Prompts user input for the node to delete, and removes it from the list.
 ******************************************************************************/
-void deleteEntry(LinkedList* account_list) {
+void deleteEntry(LinkedList_t* account_list) {
     /* Edge case where list is empty */
     if(account_list->size <= 0) {
         return;
@@ -390,7 +390,7 @@ void deleteEntry(LinkedList* account_list) {
  * Prompts user input for the node to edit, and and updates the nth 
  * nodes values with newly prompted values. 
 ******************************************************************************/
-void editEntry(LinkedList* account_list){ 
+void editEntry(LinkedList_t* account_list){ 
     /* Edge case where list is empty */
     if(account_list->size <= 0) {
         return;
@@ -428,7 +428,7 @@ void editEntry(LinkedList* account_list){
  * entry in the following format:
  * {url length , url , username length , username , password length , password}
 ******************************************************************************/
-void saveEntryList(LinkedList account_list, char* key) {
+void saveEntryList(LinkedList_t account_list, char* key) {
     FILE *fp;
     if((fp = fopen(DATABASE_FILE_NAME, "wb")) == NULL) {
         printf("Write error");
@@ -439,7 +439,7 @@ void saveEntryList(LinkedList account_list, char* key) {
     fwrite(&account_list.size, sizeof(unsigned int), 1, fp);
 
     /* Incremement through the linked list */
-    LLNode* node = account_list.head;
+    LLNode_t* node = account_list.head;
     while(node != NULL) {
         entry_t temp = *(node->data);
         /* Encrypting the entry */
@@ -472,7 +472,7 @@ void saveEntryList(LinkedList account_list, char* key) {
  * entry in the following format:
  * {url length , url , username length , username , password length , password}
 ******************************************************************************/
-void readEntryList(LinkedList* account_list, char* key) {
+void readEntryList(LinkedList_t* account_list, char* key) {
     FILE *fp;
 
     /* Opening the file, if the file fails to open return from function */
@@ -521,7 +521,7 @@ void readEntryList(LinkedList* account_list, char* key) {
  * displayEntryList - MAIN MENU
  * Displays the list in a formatted table.
 ******************************************************************************/
-void displayEntryList(LinkedList account_list) {
+void displayEntryList(LinkedList_t account_list) {
     /* Edge case where list is empty */
     if(account_list.size <= 0) {
         printf("List is empty!\n");
@@ -534,7 +534,7 @@ void displayEntryList(LinkedList account_list) {
     printf("     +====================================================+================================+================================+\n");
 
     /* Increment though list, printing each entry */
-    LLNode* node = account_list.head;
+    LLNode_t* node = account_list.head;
     int i = 1;
     while(node != NULL) {
         printf("%3d. | %-50s | %-30s | %-30s |\n", i, node->data->url, node->data->username, node->data->password);
