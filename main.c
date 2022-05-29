@@ -8,8 +8,8 @@
  * 
  * Project Group 3
  * Students:
- *  - Aidan Grigg (14314328) | Lab 07
- *  - 
+ *  - Aidan Grigg (14314328)    | Lab 07
+ *  - Vatsin Kumar (13760893)   | Lab 06
  *  - 
 ******************************************************************************/
 
@@ -36,7 +36,7 @@
 
 #define DATABASE_FILE_NAME "passwords.bin"
 #define KEY_FILE_NAME "key.bin"
-#define KEY_ENCRYPT "pBlUsi9Onx"
+#define KEY_ENCRYPT "BOPFoq117gFXT9ax90aPnzcmCdAHV0AQYlz3e0TPj2IzeRZ9dh"
 
 /******************************************************************************
  * Function prototypes
